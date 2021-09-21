@@ -11,7 +11,7 @@ class LanguageSelector extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          width: MediaQuery.of(context).size.width * 0.40,
+          width: MediaQuery.of(context).size.width * 0.42,
           child: TextButton(
             child: Text(context.watch<LanguageSelectProvider>().languageOne),
             onPressed: () {
@@ -67,7 +67,7 @@ class LanguageSelector extends StatelessWidget {
               }),
         ),
         Container(
-          width: MediaQuery.of(context).size.width * 0.40,
+          width: MediaQuery.of(context).size.width * 0.42,
           child: TextButton(
             child: Text(context.watch<LanguageSelectProvider>().languageTwo),
             onPressed: () {

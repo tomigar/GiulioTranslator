@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:translator_app/providers/translate_text_provider.dart';
 
 import 'package:tts_azure/tts_azure.dart';
@@ -15,46 +13,31 @@ class Translator extends StatefulWidget {
 }
 
 class _TranslatorState extends State<Translator> {
-//   Future<String> translate(String text, String to) async {
-//     final String data = jsonEncode([
-//       {'Text': text}
-//     ]);
-//     final String params = '&to=$to';
-
-//     final response = await http.post(
-//         'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0$params',
-//         headers: {
-//           'Ocp-Apim-Subscription-Key': 'a2d202b0fb324d93b71cf08572f43f1e',
-//           'Ocp-Apim-Subscription-Region': 'global',
-//           'Content-Type': 'application/json',
-//           'Charset': 'utf-8',
-//         },
-//         body: data);
-
-//     var translation = json.decode(response.body);
-
-//     textController.text = translation[0]['translations'][0]['text'];
-
-//     return translation[0]['translations'][0]['text'];
-//   }
 
   final ttsazure = TTSAzure("b004778940754c529110b116892e81af", "northeurope");
 
-  // String toTranslate = "";
-  // String translated = "";
-  @override
+
+  TextEditingController textController;
+
+@override
   void initState() {
-    final TranslateTextProvider myProvider =
-        Provider.of<TranslateTextProvider>(context, listen: false);
+    final TranslateTextProvider myProvider = Provider.of<TranslateTextProvider>(context, listen: false);
 
     super.initState();
-    final textController = TextEditingController(text: myProvider.translated);
+    textController = TextEditingController(text: myProvider.translated);
   }
 
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
   final fieldText = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
+    final TranslateTextProvider myProvider = Provider.of<TranslateTextProvider>(context);
     Future _speak() async {
       ttsazure.speak(
           Provider.of<TranslateTextProvider>(context, listen: false)
@@ -117,25 +100,21 @@ class _TranslatorState extends State<Translator> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
+                  //keyboardType: TextInputType.multiline,
+                  //maxLines: 5,
                   controller: fieldText,
-                  onChanged: (val) {
+                  onSubmitted: (val) {
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .toTranslate = val;
-                    //   translated = translate(
-                    //           val,
-                    //           Provider.of<LanguageSelectProvider>(context,
-                    //                   listen: false)
-                    //               .languageParTwo)
-                    //       .toString();
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .start(Provider.of<LanguageSelectProvider>(context,
                                 listen: false)
                             .languageParTwo);
+                           
                   },
                   decoration: InputDecoration(
                       hintText: "Type your text here",
+                      
                       border: InputBorder.none),
                 ),
               ),
@@ -219,6 +198,7 @@ class _TranslatorState extends State<Translator> {
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'Translated text'),
                   controller: textController,
+                  onChanged: myProvider.setTranslated,
                   readOnly: true,
                   style: TextStyle(color: Colors.white),
                 ),
