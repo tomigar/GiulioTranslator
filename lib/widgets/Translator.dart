@@ -13,18 +13,23 @@ class Translator extends StatefulWidget {
 }
 
 class _TranslatorState extends State<Translator> {
-
   final ttsazure = TTSAzure("b004778940754c529110b116892e81af", "northeurope");
-
 
   TextEditingController textController;
 
-@override
+  @override
   void initState() {
-    final TranslateTextProvider myProvider = Provider.of<TranslateTextProvider>(context, listen: false);
-
     super.initState();
-    textController = TextEditingController(text: myProvider.translated);
+    textController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    textController.text = Provider.of<TranslateTextProvider>(
+      context,
+      listen: true, // Be sure to listen
+    ).translated;
+    super.didChangeDependencies();
   }
 
   @override
@@ -32,12 +37,11 @@ class _TranslatorState extends State<Translator> {
     textController.dispose();
     super.dispose();
   }
-  final fieldText = TextEditingController();
 
+  final fieldText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final TranslateTextProvider myProvider = Provider.of<TranslateTextProvider>(context);
     Future _speak() async {
       ttsazure.speak(
           Provider.of<TranslateTextProvider>(context, listen: false)
@@ -103,18 +107,16 @@ class _TranslatorState extends State<Translator> {
                   //keyboardType: TextInputType.multiline,
                   //maxLines: 5,
                   controller: fieldText,
-                  onSubmitted: (val) {
+                  onChanged: (val) {
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .toTranslate = val;
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .start(Provider.of<LanguageSelectProvider>(context,
                                 listen: false)
                             .languageParTwo);
-                           
                   },
                   decoration: InputDecoration(
                       hintText: "Type your text here",
-                      
                       border: InputBorder.none),
                 ),
               ),
@@ -198,7 +200,6 @@ class _TranslatorState extends State<Translator> {
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'Translated text'),
                   controller: textController,
-                  onChanged: myProvider.setTranslated,
                   readOnly: true,
                   style: TextStyle(color: Colors.white),
                 ),

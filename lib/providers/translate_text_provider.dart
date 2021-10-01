@@ -23,8 +23,8 @@ class TranslateTextProvider with ChangeNotifier {
     var translation = json.decode(response.body);
 
     translated = translation[0]['translations'][0]['text'];
-
-    return translation[0]['translations'][0]['text'];
+    setTranslated(translation[0]['translations'][0]['text']);
+    return null;
   }
 
   final ttsazure = TTSAzure("b004778940754c529110b116892e81af", "northeurope");
@@ -42,6 +42,10 @@ class TranslateTextProvider with ChangeNotifier {
 
   void setTranslated(text) {
     translated = text;
+    if (text != translated) {
+      translated = text;
+      notifyListeners(); // Notify if the text changed
+    }
     notifyListeners();
   }
 

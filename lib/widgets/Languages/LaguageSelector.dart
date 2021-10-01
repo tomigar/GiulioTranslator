@@ -22,6 +22,7 @@ class LanguageSelector extends StatelessWidget {
                       title: Text('Set your language'),
                     ),
                     body: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: languages.length,
                       itemBuilder: (_, index) {
                         return Column(
@@ -78,6 +79,7 @@ class LanguageSelector extends StatelessWidget {
                       title: Text('Set your language'),
                     ),
                     body: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: languages.length,
                       itemBuilder: (_, index) {
                         return ListTile(
