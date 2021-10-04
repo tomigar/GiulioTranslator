@@ -13,6 +13,8 @@ class LanguageSelectProvider with ChangeNotifier {
   String voiceCodeTwo = "";
   String voiceCodeX = "";
 
+  bool search = false;
+
   String get getLanOne => languageOne;
   String get getLanTwo => languageTwo;
 
@@ -21,6 +23,8 @@ class LanguageSelectProvider with ChangeNotifier {
 
   String get getVoiceCodeOne => voiceCodeOne;
   String get getVoiceCodeTwo => voiceCodeTwo;
+
+  bool get getSearch => search;
 
   void setLanOne(name) {
     languageOne = name;
@@ -63,5 +67,19 @@ class LanguageSelectProvider with ChangeNotifier {
 
   void setVoiceCodeTwo(code) {
     voiceCodeTwo = code;
+  }
+
+  void setSearch() {
+    if (search == false) {
+      search = true;
+    } else {
+      search = false;
+    }
+    notifyListeners();
+  }
+
+  void setSearchOff() {
+    search = false;
+    notifyListeners();
   }
 }
