@@ -20,6 +20,39 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     Provider.of<LanguageSelectProvider>(context, listen: false).setSearchOff();
   }
 
+@override
+  void dispose() {
+    super.dispose();
+    _search.dispose();
+  }
+
+   List<Map<String, dynamic>> _foundLanguages = [];
+  @override
+  initState() {
+    // at the beginning, all users are shown
+    _foundLanguages = languages;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<Map<String, String>> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = languages;
+    } else {
+      results = languages
+          .where((user) =>
+              user["name"].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      _foundLanguages = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,6 +73,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                           ? Text('Set your language')
                           : TextField(
                               controller: _search,
+                              onChanged:  _runFilter,
                               decoration: InputDecoration(
                                 hintText: 'Search for your language ...',
                                 hintStyle: TextStyle(
@@ -76,36 +110,40 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                         children: [
                           Container(
                             height: 500,
-                            child: ListView.builder(
+                            child:
+                            (_foundLanguages.isNotEmpty)
+                            ?
+                             ListView.builder(
                               physics: BouncingScrollPhysics(),
-                              itemCount: languages.length,
-                              itemBuilder: (_, index) {
+                              itemCount: _foundLanguages.length,
+                              itemBuilder: (context, index) {
                                 return ListTile(
-                                  title: Text(languages[index]["name"]),
+                                  title: Text(_foundLanguages[index]["name"]),
                                   trailing: (context
                                               .watch<LanguageSelectProvider>()
                                               .languageOne ==
-                                          languages[index]["name"])
+                                          _foundLanguages[index]["name"])
                                       ? Icon(Icons.done)
                                       : Text(''),
                                   onTap: () {
                                     context
                                         .read<LanguageSelectProvider>()
-                                        .setLanOne(languages[index]["name"]);
+                                        .setLanOne(_foundLanguages[index]["name"]);
                                     context
                                         .read<LanguageSelectProvider>()
-                                        .setLanParOne(languages[index]["par"]);
+                                        .setLanParOne(_foundLanguages[index]["par"]);
                                     context
                                         .read<LanguageSelectProvider>()
                                         .setVoiceCodeOne(
-                                            languages[index]["speechCodeMale"]);
+                                            _foundLanguages[index]["speechCodeMale"]);
 
                                     Navigator.of(context).pop();
                                     setSearchOff();
                                   },
                                 );
                               },
-                            ),
+                            )
+                            : Center(child: Text("No results found"),)
                           ),
                         ],
                       ),
