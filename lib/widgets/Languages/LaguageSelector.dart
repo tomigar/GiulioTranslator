@@ -20,13 +20,20 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     Provider.of<LanguageSelectProvider>(context, listen: false).setSearchOff();
   }
 
-@override
+  void searchClear() {
+    setState(() {
+      _foundLanguages = languages;
+    });
+    _search.clear();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _search.dispose();
   }
 
-   List<Map<String, dynamic>> _foundLanguages = [];
+  List<Map<String, dynamic>> _foundLanguages = [];
   @override
   initState() {
     // at the beginning, all users are shown
@@ -35,22 +42,26 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   void _runFilter(String enteredKeyword) {
-    List<Map<String, String>> results = [];
     if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
-      results = languages;
+      Provider.of<LanguageSelectProvider>(context, listen: false)
+          .setResults(languages);
+      print('empty');
     } else {
-      results = languages
-          .where((user) =>
-              user["name"].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
-          .toList();
+      print('entered:' + enteredKeyword);
+      Provider.of<LanguageSelectProvider>(context, listen: false).setResults(
+          languages
+              .where((user) => user["name"]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()))
+              .toList());
       // we use the toLowerCase() method to make it case-insensitive
     }
 
     // Refresh the UI
-    setState(() {
-      _foundLanguages = results;
-    });
+
+    _foundLanguages =
+        Provider.of<LanguageSelectProvider>(context, listen: false).results;
   }
 
   @override
@@ -73,7 +84,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                           ? Text('Set your language')
                           : TextField(
                               controller: _search,
-                              onChanged:  _runFilter,
+                              onChanged: _runFilter,
                               decoration: InputDecoration(
                                 hintText: 'Search for your language ...',
                                 hintStyle: TextStyle(
@@ -98,7 +109,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                                 icon: Icon(Icons.search))
                             : IconButton(
                                 onPressed: () {
-                                  _search.clear();
+                                  searchClear();
                                   setSearch();
                                 },
                                 icon: Icon(Icons.close)),
@@ -109,42 +120,50 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                       child: Column(
                         children: [
                           Container(
-                            height: 500,
-                            child:
-                            (_foundLanguages.isNotEmpty)
-                            ?
-                             ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              itemCount: _foundLanguages.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Text(_foundLanguages[index]["name"]),
-                                  trailing: (context
-                                              .watch<LanguageSelectProvider>()
-                                              .languageOne ==
-                                          _foundLanguages[index]["name"])
-                                      ? Icon(Icons.done)
-                                      : Text(''),
-                                  onTap: () {
-                                    context
-                                        .read<LanguageSelectProvider>()
-                                        .setLanOne(_foundLanguages[index]["name"]);
-                                    context
-                                        .read<LanguageSelectProvider>()
-                                        .setLanParOne(_foundLanguages[index]["par"]);
-                                    context
-                                        .read<LanguageSelectProvider>()
-                                        .setVoiceCodeOne(
-                                            _foundLanguages[index]["speechCodeMale"]);
+                              height: MediaQuery.of(context).size.height,
+                              child: (_foundLanguages.isNotEmpty)
+                                  ? ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: _foundLanguages.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          title: Text(
+                                              _foundLanguages[index]["name"]),
+                                          trailing: (context
+                                                      .watch<
+                                                          LanguageSelectProvider>()
+                                                      .languageOne ==
+                                                  _foundLanguages[index]
+                                                      ["name"])
+                                              ? Icon(Icons.done)
+                                              : Text(''),
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setLanOne(
+                                                    _foundLanguages[index]
+                                                        ["name"]);
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setLanParOne(
+                                                    _foundLanguages[index]
+                                                        ["par"]);
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setVoiceCodeOne(
+                                                    _foundLanguages[index]
+                                                        ["speechCodeMale"]);
 
-                                    Navigator.of(context).pop();
-                                    setSearchOff();
-                                  },
-                                );
-                              },
-                            )
-                            : Center(child: Text("No results found"),)
-                          ),
+                                            searchClear();
+                                            setSearchOff();
+                                          },
+                                        );
+                                      },
+                                    )
+                                  : Center(
+                                      child: Text("No results found"),
+                                    )),
                         ],
                       ),
                     ),

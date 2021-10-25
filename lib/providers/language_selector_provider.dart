@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translator_app/widgets/Languages/LanguagesList.dart';
 
 class LanguageSelectProvider with ChangeNotifier {
   String languageOne = 'Choose your language';
@@ -15,6 +16,8 @@ class LanguageSelectProvider with ChangeNotifier {
 
   bool search = false;
 
+  List<Map<String, String>> results = [];
+
   String get getLanOne => languageOne;
   String get getLanTwo => languageTwo;
 
@@ -25,6 +28,8 @@ class LanguageSelectProvider with ChangeNotifier {
   String get getVoiceCodeTwo => voiceCodeTwo;
 
   bool get getSearch => search;
+
+  List<Map<String, String>> get getResults => results;
 
   void setLanOne(name) {
     languageOne = name;
@@ -74,12 +79,20 @@ class LanguageSelectProvider with ChangeNotifier {
       search = true;
     } else {
       search = false;
+      setResults(languages);
     }
+
     notifyListeners();
   }
 
   void setSearchOff() {
     search = false;
+    setResults(languages);
+    notifyListeners();
+  }
+
+  void setResults(string) {
+    results = string;
     notifyListeners();
   }
 }
