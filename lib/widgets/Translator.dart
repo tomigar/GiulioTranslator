@@ -15,30 +15,38 @@ class Translator extends StatefulWidget {
 class _TranslatorState extends State<Translator> {
   final ttsazure = TTSAzure("b004778940754c529110b116892e81af", "northeurope");
 
-  TextEditingController textController;
+  TextEditingController translatedController;
+  TextEditingController toTranslateController;
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    translatedController = TextEditingController();
+    toTranslateController = TextEditingController();
   }
 
   @override
   void didChangeDependencies() {
-    textController.text = Provider.of<TranslateTextProvider>(
+    translatedController.text = Provider.of<TranslateTextProvider>(
       context,
       listen: true, // Be sure to listen
     ).translated;
+    toTranslateController.text = Provider.of<TranslateTextProvider>(
+      context,
+      listen: false, // Be sure to listen
+    ).toTranslate;
+    toTranslateController.selection = TextSelection.fromPosition(
+        TextPosition(offset: toTranslateController.text.length));
+
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    textController.dispose();
+    translatedController.dispose();
+    toTranslateController.dispose();
     super.dispose();
   }
-
-  final fieldText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,7 @@ class _TranslatorState extends State<Translator> {
 
     Future _speakTwo() async {
       ttsazure.speak(
-          textController.text,
+          translatedController.text,
           "en-US",
           Provider.of<LanguageSelectProvider>(context, listen: false)
               .voiceCodeTwo);
@@ -72,7 +80,7 @@ class _TranslatorState extends State<Translator> {
             children: [
               Row(
                 children: [
-                  (Provider.of<LanguageSelectProvider>(context, listen: false)
+                  (Provider.of<LanguageSelectProvider>(context, listen: true)
                               .voiceCodeOne ==
                           "")
                       ? IconBtn(
@@ -95,8 +103,12 @@ class _TranslatorState extends State<Translator> {
                   IconBtn(
                     icon: Icon(Icons.close),
                     onTap: () {
-                      fieldText.clear();
-                      textController.clear();
+                      toTranslateController.clear();
+                      translatedController.clear();
+                      Provider.of<TranslateTextProvider>(context, listen: false)
+                          .setToTranslate("");
+                      Provider.of<TranslateTextProvider>(context, listen: false)
+                          .setTranslated("");
                     },
                   ),
                 ],
@@ -104,12 +116,12 @@ class _TranslatorState extends State<Translator> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: TextField(
-                  //keyboardType: TextInputType.multiline,
-                  //maxLines: 5,
-                  controller: fieldText,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 5,
+                  controller: toTranslateController,
                   onChanged: (val) {
                     Provider.of<TranslateTextProvider>(context, listen: false)
-                        .toTranslate = val;
+                        .setToTranslate(val);
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .start(Provider.of<LanguageSelectProvider>(context,
                                 listen: false)
@@ -171,9 +183,9 @@ class _TranslatorState extends State<Translator> {
                   IconBtn(
                     icon: Icon(Icons.copy),
                     onTap: () {
-                      if (textController.text != "") {
+                      if (translatedController.text != "") {
                         Clipboard.setData(
-                            ClipboardData(text: textController.text));
+                            ClipboardData(text: translatedController.text));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             behavior: SnackBarBehavior.floating,
@@ -199,7 +211,7 @@ class _TranslatorState extends State<Translator> {
                   maxLines: 5,
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'Translated text'),
-                  controller: textController,
+                  controller: translatedController,
                   readOnly: true,
                   style: TextStyle(color: Colors.white),
                 ),

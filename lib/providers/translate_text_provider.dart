@@ -31,6 +31,7 @@ class TranslateTextProvider with ChangeNotifier {
 
   String toTranslate = "";
   String translated = "";
+  String swapTranslate = "";
 
   String get getToTranslate => toTranslate;
   String get getTranslated => translated;
@@ -46,6 +47,13 @@ class TranslateTextProvider with ChangeNotifier {
       translated = text;
       notifyListeners(); // Notify if the text changed
     }
+    notifyListeners();
+  }
+
+  void swapTranslation() {
+    swapTranslate = toTranslate;
+    toTranslate = translated;
+    translated = swapTranslate;
     notifyListeners();
   }
 

@@ -177,7 +177,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           child: IconButton(
               icon: Icon(Icons.swap_horiz_sharp),
               onPressed: () {
-                context.read<LanguageSelectProvider>().languageswap();
+                Provider.of<LanguageSelectProvider>(context, listen: false)
+                    .languageswap();
+                Provider.of<TranslateTextProvider>(context, listen: false)
+                    .swapTranslation();
               }),
         ),
         Container(
@@ -189,41 +192,101 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                 MaterialPageRoute(
                   builder: (context) => Scaffold(
                     appBar: AppBar(
-                      title: Text('Set your language'),
+                      title: (!Provider.of<LanguageSelectProvider>(context,
+                                  listen: true)
+                              .search)
+                          ? Text('Set your language')
+                          : TextField(
+                              controller: _search,
+                              onChanged: _runFilter,
+                              decoration: InputDecoration(
+                                hintText: 'Search for your language ...',
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                      actions: [
+                        (!Provider.of<LanguageSelectProvider>(context,
+                                    listen: true)
+                                .search)
+                            ? IconButton(
+                                onPressed: () {
+                                  setSearch();
+                                },
+                                icon: Icon(Icons.search))
+                            : IconButton(
+                                onPressed: () {
+                                  searchClear();
+                                  setSearch();
+                                },
+                                icon: Icon(Icons.close)),
+                      ],
                     ),
-                    body: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: languages.length,
-                      itemBuilder: (_, index) {
-                        return ListTile(
-                          title: Text(languages[index]["name"]),
-                          trailing: (context
-                                      .watch<LanguageSelectProvider>()
-                                      .languageTwo ==
-                                  languages[index]["name"])
-                              ? Icon(Icons.done)
-                              : Text(''),
-                          onTap: () {
-                            context
-                                .read<LanguageSelectProvider>()
-                                .setLanTwo(languages[index]["name"]);
-                            context
-                                .read<LanguageSelectProvider>()
-                                .setLanParTwo(languages[index]["par"]);
-                            context
-                                .read<LanguageSelectProvider>()
-                                .setVoiceCodeTwo(
-                                    languages[index]["speechCodeMale"]);
-                            Provider.of<TranslateTextProvider>(context,
-                                    listen: false)
-                                .start(Provider.of<LanguageSelectProvider>(
-                                        context,
-                                        listen: false)
-                                    .languageParTwo);
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      },
+                    body: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: (_foundLanguages.isNotEmpty)
+                                  ? ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: _foundLanguages.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          title: Text(
+                                              _foundLanguages[index]["name"]),
+                                          trailing: (context
+                                                      .watch<
+                                                          LanguageSelectProvider>()
+                                                      .languageOne ==
+                                                  _foundLanguages[index]
+                                                      ["name"])
+                                              ? Icon(Icons.done)
+                                              : Text(''),
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setLanTwo(
+                                                    _foundLanguages[index]
+                                                        ["name"]);
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setLanParTwo(
+                                                    _foundLanguages[index]
+                                                        ["par"]);
+                                            context
+                                                .read<LanguageSelectProvider>()
+                                                .setVoiceCodeTwo(
+                                                    _foundLanguages[index]
+                                                        ["speechCodeMale"]);
+                                            Provider.of<TranslateTextProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .start(Provider.of<
+                                                            LanguageSelectProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .languageParTwo);
+                                            searchClear();
+                                            setSearchOff();
+                                          },
+                                        );
+                                      },
+                                    )
+                                  : Center(
+                                      child: Text("No results found"),
+                                    )),
+                        ],
+                      ),
                     ),
                   ),
                 ),
