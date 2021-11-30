@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:translator_app/screens/ChatScreen.dart';
+import 'package:translator_app/screens/ScannerScreen.dart';
 
 import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 import 'package:translator_app/widgets/Translator.dart';
@@ -26,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   _currentindex, // this will be set when a new tab is tapped
               items: [
                 BottomNavigationBarItem(
+                  icon: new Icon(Icons.chat),
+                  label: 'Chat',
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+                BottomNavigationBarItem(
                   icon: new Icon(Icons.translate),
                   label: 'Text',
                   backgroundColor: Theme.of(context).primaryColor,
@@ -48,14 +57,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       _currentindex = index;
                     });
                     break;
+                  case 2:
+                    setState(() {
+                      _currentindex = index;
+                    });
+                    break;
                 }
               }),
           body: SingleChildScrollView(
-              child: (_currentindex == 0)
-                  ? Column(
-                      children: [LanguageSelector(), Translator()],
+              child:
+              (){switch (_currentindex) {
+                case 0:
+                  
+                  break;
+                default:
+              }}()
+              
+              
+                
+
+          )
+
                     )
-                  : Navigator.of(context).pushNamed("/scanner"))),
+                   
     );
   }
 }
+
+// Widget getWidget(index){
+//   if (index == 0) return ChatScreen();
+//   if (index == 1) return Column()
+// }

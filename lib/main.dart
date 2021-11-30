@@ -23,10 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Giulio',
+        
         theme: ThemeData(
           scaffoldBackgroundColor: Color.fromRGBO(235, 235, 237, 1),
           primaryColor: Color.fromRGBO(58, 88, 244, 1),
-          appBarTheme: AppBarTheme(color: Color.fromRGBO(58, 88, 244, 1))
+          appBarTheme: AppBarTheme(color: Color.fromRGBO(58, 88, 244, 1)),
+          fontFamily: 'Sen',
         ),
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
