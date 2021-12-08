@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "510321678645",
+    "project_id": "giulio-translator-app",
+    "storage_bucket": "giulio-translator-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510321678645:android:7c84a1df30181ba185d47c",
+        "android_client_info": {
+          "package_name": "com.example.translator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510321678645-d6179arfm6cqp741n5h2iuaadjloq3bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPA6zIt2w0xqBWqVMC7ocwAnPOnqXz78I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510321678645-d6179arfm6cqp741n5h2iuaadjloq3bk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -69,108 +69,113 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.42,
-          child: TextButton(
-            child: Text(context.watch<LanguageSelectProvider>().languageOne),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Scaffold(
-                    appBar: AppBar(
-                      title: (!Provider.of<LanguageSelectProvider>(context,
-                                  listen: true)
-                              .search)
-                          ? Text('Set your language')
-                          : TextField(
-                              controller: _search,
-                              onChanged: _runFilter,
-                              decoration: InputDecoration(
-                                hintText: 'Search for your language ...',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                      actions: [
-                        (!Provider.of<LanguageSelectProvider>(context,
+        FittedBox(
+          child: Container(
+            //width: MediaQuery.of(context).size.width * 0.45,
+            child: TextButton(
+              child: Text(context.watch<LanguageSelectProvider>().languageOne),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Scaffold(
+                      appBar: AppBar(
+                        title: (!Provider.of<LanguageSelectProvider>(context,
                                     listen: true)
                                 .search)
-                            ? IconButton(
-                                onPressed: () {
-                                  setSearch();
-                                },
-                                icon: Icon(Icons.search))
-                            : IconButton(
-                                onPressed: () {
-                                  searchClear();
-                                  setSearch();
-                                },
-                                icon: Icon(Icons.close)),
-                      ],
-                    ),
-                    body: SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: (_foundLanguages.isNotEmpty)
-                                  ? ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: _foundLanguages.length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(
-                                              _foundLanguages[index]["name"]),
-                                          trailing: (context
-                                                      .watch<
-                                                          LanguageSelectProvider>()
-                                                      .languageOne ==
-                                                  _foundLanguages[index]
-                                                      ["name"])
-                                              ? Icon(Icons.done)
-                                              : Text(''),
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setLanOne(
-                                                    _foundLanguages[index]
-                                                        ["name"]);
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setLanParOne(
-                                                    _foundLanguages[index]
-                                                        ["par"]);
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setVoiceCodeOne(
-                                                    _foundLanguages[index]
-                                                        ["speechCodeMale"]);
-
-                                            searchClear();
-                                            setSearchOff();
-                                          },
-                                        );
-                                      },
-                                    )
-                                  : Center(
-                                      child: Text("No results found"),
-                                    )),
+                            ? Text('Set your language')
+                            : TextField(
+                                controller: _search,
+                                onChanged: _runFilter,
+                                decoration: InputDecoration(
+                                  hintText: 'Search for your language ...',
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                        actions: [
+                          (!Provider.of<LanguageSelectProvider>(context,
+                                      listen: true)
+                                  .search)
+                              ? IconButton(
+                                  onPressed: () {
+                                    setSearch();
+                                  },
+                                  icon: Icon(Icons.search))
+                              : IconButton(
+                                  onPressed: () {
+                                    searchClear();
+                                    setSearch();
+                                  },
+                                  icon: Icon(Icons.close)),
                         ],
+                      ),
+                      body: SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Container(
+                                height: MediaQuery.of(context).size.height,
+                                child: (_foundLanguages.isNotEmpty)
+                                    ? ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        itemCount: _foundLanguages.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(
+                                                _foundLanguages[index]["name"]),
+                                            trailing: (context
+                                                        .watch<
+                                                            LanguageSelectProvider>()
+                                                        .languageOne ==
+                                                    _foundLanguages[index]
+                                                        ["name"])
+                                                ? Icon(Icons.done)
+                                                : Text(''),
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setLanOne(
+                                                      _foundLanguages[index]
+                                                          ["name"]);
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setLanParOne(
+                                                      _foundLanguages[index]
+                                                          ["par"]);
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setVoiceCodeOne(
+                                                      _foundLanguages[index]
+                                                          ["speechCodeMale"]);
+
+                                              searchClear();
+                                              setSearchOff();
+                                            },
+                                          );
+                                        },
+                                      )
+                                    : Center(
+                                        child: Text("No results found"),
+                                      )),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
         Center(
@@ -183,115 +188,120 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                     .swapTranslation();
               }),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.42,
-          child: TextButton(
-            child: Text(context.watch<LanguageSelectProvider>().languageTwo),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Scaffold(
-                    appBar: AppBar(
-                      title: (!Provider.of<LanguageSelectProvider>(context,
-                                  listen: true)
-                              .search)
-                          ? Text('Set your language')
-                          : TextField(
-                              controller: _search,
-                              onChanged: _runFilter,
-                              decoration: InputDecoration(
-                                hintText: 'Search for your language ...',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                      actions: [
-                        (!Provider.of<LanguageSelectProvider>(context,
+        FittedBox(
+          child: Container(
+            //width: MediaQuery.of(context).size.width * 0.45,
+            child: TextButton(
+              child: Text(context.watch<LanguageSelectProvider>().languageTwo),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Scaffold(
+                      appBar: AppBar(
+                        title: (!Provider.of<LanguageSelectProvider>(context,
                                     listen: true)
                                 .search)
-                            ? IconButton(
-                                onPressed: () {
-                                  setSearch();
-                                },
-                                icon: Icon(Icons.search))
-                            : IconButton(
-                                onPressed: () {
-                                  searchClear();
-                                  setSearch();
-                                },
-                                icon: Icon(Icons.close)),
-                      ],
-                    ),
-                    body: SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: (_foundLanguages.isNotEmpty)
-                                  ? ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: _foundLanguages.length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(
-                                              _foundLanguages[index]["name"]),
-                                          trailing: (context
-                                                      .watch<
-                                                          LanguageSelectProvider>()
-                                                      .languageOne ==
-                                                  _foundLanguages[index]
-                                                      ["name"])
-                                              ? Icon(Icons.done)
-                                              : Text(''),
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setLanTwo(
-                                                    _foundLanguages[index]
-                                                        ["name"]);
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setLanParTwo(
-                                                    _foundLanguages[index]
-                                                        ["par"]);
-                                            context
-                                                .read<LanguageSelectProvider>()
-                                                .setVoiceCodeTwo(
-                                                    _foundLanguages[index]
-                                                        ["speechCodeMale"]);
-                                            Provider.of<TranslateTextProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .start(Provider.of<
-                                                            LanguageSelectProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .languageParTwo);
-                                            searchClear();
-                                            setSearchOff();
-                                          },
-                                        );
-                                      },
-                                    )
-                                  : Center(
-                                      child: Text("No results found"),
-                                    )),
+                            ? Text('Set your language')
+                            : TextField(
+                                controller: _search,
+                                onChanged: _runFilter,
+                                decoration: InputDecoration(
+                                  hintText: 'Search for your language ...',
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                        actions: [
+                          (!Provider.of<LanguageSelectProvider>(context,
+                                      listen: true)
+                                  .search)
+                              ? IconButton(
+                                  onPressed: () {
+                                    setSearch();
+                                  },
+                                  icon: Icon(Icons.search))
+                              : IconButton(
+                                  onPressed: () {
+                                    searchClear();
+                                    setSearch();
+                                  },
+                                  icon: Icon(Icons.close)),
                         ],
+                      ),
+                      body: SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Container(
+                                height: MediaQuery.of(context).size.height,
+                                child: (_foundLanguages.isNotEmpty)
+                                    ? ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        itemCount: _foundLanguages.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(
+                                                _foundLanguages[index]["name"]),
+                                            trailing: (context
+                                                        .watch<
+                                                            LanguageSelectProvider>()
+                                                        .languageOne ==
+                                                    _foundLanguages[index]
+                                                        ["name"])
+                                                ? Icon(Icons.done)
+                                                : Text(''),
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setLanTwo(
+                                                      _foundLanguages[index]
+                                                          ["name"]);
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setLanParTwo(
+                                                      _foundLanguages[index]
+                                                          ["par"]);
+                                              context
+                                                  .read<
+                                                      LanguageSelectProvider>()
+                                                  .setVoiceCodeTwo(
+                                                      _foundLanguages[index]
+                                                          ["speechCodeMale"]);
+                                              Provider.of<TranslateTextProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .start(Provider.of<
+                                                              LanguageSelectProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .languageParTwo);
+                                              searchClear();
+                                              setSearchOff();
+                                            },
+                                          );
+                                        },
+                                      )
+                                    : Center(
+                                        child: Text("No results found"),
+                                      )),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ],

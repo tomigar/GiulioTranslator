@@ -88,11 +88,24 @@ class _TranslatorState extends State<Translator> {
                             Icons.volume_up,
                             color: Colors.grey,
                           ),
-                          onTap: () {})
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                content: const Text(
+                                    'This language does not support Text-to-Speech'),
+                              ),
+                            );
+                            FocusScope.of(context).unfocus();
+                          })
                       : IconBtn(
                           icon: Icon(Icons.volume_up),
                           onTap: () {
                             _speak();
+                            FocusScope.of(context).unfocus();
                           },
                         ),
                   Text(
@@ -109,6 +122,7 @@ class _TranslatorState extends State<Translator> {
                           .setToTranslate("");
                       Provider.of<TranslateTextProvider>(context, listen: false)
                           .setTranslated("");
+                      FocusScope.of(context).unfocus();
                     },
                   ),
                 ],
@@ -119,6 +133,8 @@ class _TranslatorState extends State<Translator> {
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   controller: toTranslateController,
+                  textCapitalization: TextCapitalization.sentences,
+                  enableSuggestions: true,
                   onChanged: (val) {
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .setToTranslate(val);
@@ -168,11 +184,13 @@ class _TranslatorState extends State<Translator> {
                                     'This language does not support Text-to-Speech'),
                               ),
                             );
+                            FocusScope.of(context).unfocus();
                           })
                       : IconBtn(
                           icon: Icon(Icons.volume_up),
                           onTap: () {
                             _speakTwo();
+                            FocusScope.of(context).unfocus();
                           },
                         ),
                   Text(

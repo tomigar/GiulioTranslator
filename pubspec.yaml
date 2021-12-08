@@ -24,12 +24,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #Firebase
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0
   provider: ^5.0.0
 
-  #fluid_bottom_nav_bar: ^1.0.0
+  fluid_bottom_nav_bar: ^1.0.0
 
-  microsoft_translate: ^0.1.0
-
+  #microsoft_translate: ^0.1.0
+  #flutter_azure_tts: ^0.1.2
   tts_azure: ^1.0.0
 
   flutter_mobile_vision: ^0.1.3
