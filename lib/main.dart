@@ -2,14 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:translator_app/screens/ChatScreen.dart';
-import 'package:translator_app/screens/SignInScreen.dart';
-import 'authentication_service.dart';
-import 'providers/language_selector_provider.dart';
-import 'providers/translate_text_provider.dart';
 
 import 'package:translator_app/screens/HomeScreen.dart';
 import 'package:translator_app/screens/ScannerScreen.dart';
+import 'package:translator_app/screens/ChatScreen.dart';
+import 'package:translator_app/screens/RegisterScreen.dart';
+import 'package:translator_app/screens/SignInScreen.dart';
+
+import 'authentication_service.dart';
+import 'providers/language_selector_provider.dart';
+import 'providers/translate_text_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/home": (ctx) => HomeScreen(),
           "/scanner": (ctx) => ScannerScreen(),
+          "/register": (ctx) => RegisterScreen(),
         });
   }
 }
