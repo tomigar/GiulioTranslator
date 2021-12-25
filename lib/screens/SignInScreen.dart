@@ -97,17 +97,50 @@ class _SignInScreenState extends State<SignInScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("/register");
-                        },
-                        child: Text("Create an Account")),
+                        onPressed: () {},
+                        child: Text(
+                          "Forgot Password ?",
+                          style: TextStyle(color: Colors.deepPurple[400]),
+                        )),
                   ),
-                  ElevatedButton(
-                    style: ButtonStyle(),
-                    onPressed: () => trySubmit(),
-                    child: Text("Log in"),
+                  SizedBox(
+                    height: _size.height * 0.05,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () => trySubmit(),
+                      child: Text("Log In"),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurple[400],
+                          fixedSize: const Size(200, 50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50))),
+                    ),
                   ),
                   OrDivider(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        ElevatedButton(onPressed: () {}, child: Text('Google')),
+                  ),
+                  SizedBox(
+                    height: _size.height * 0.1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Don't have an account yet?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/register");
+                          },
+                          child: Text(
+                            "Create",
+                            style: TextStyle(color: Colors.deepPurple[400]),
+                          )),
+                    ],
+                  )
                 ],
               ),
             ),

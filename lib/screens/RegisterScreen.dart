@@ -39,6 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(
               "Create your account",
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: _size.width * 0.1,
                   fontWeight: FontWeight.bold,
@@ -93,14 +94,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                         },
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/register");
-                          },
-                          child: Text("Create an Account")),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(),
