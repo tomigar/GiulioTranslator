@@ -1,4 +1,4 @@
-import 'package:translator_app/widgets/Login/OrDIvider.dart';
+import 'package:translator_app/widgets/OrDIvider.dart';
 
 import '/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 letterSpacing: -1,
                 fontWeight: FontWeight.bold),
           ),
-          Padding(padding: EdgeInsets.all(20)),
+          SizedBox(
+            height: 20,
+          ),
           Form(
             child: Center(
               child: Column(
@@ -94,57 +96,53 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Forgot Password ?",
-                          style: TextStyle(color: Colors.deepPurple[400]),
-                        )),
-                  ),
-                  SizedBox(
-                    height: _size.height * 0.05,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () => trySubmit(),
-                      child: Text("Log In"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.deepPurple[400],
-                          fixedSize: const Size(200, 50),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                    ),
-                  ),
-                  OrDivider(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:
-                        ElevatedButton(onPressed: () {}, child: Text('Google')),
-                  ),
-                  SizedBox(
-                    height: _size.height * 0.1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Don't have an account yet?"),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/register");
-                          },
-                          child: Text(
-                            "Create",
-                            style: TextStyle(color: Colors.deepPurple[400]),
-                          )),
-                    ],
-                  )
                 ],
               ),
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Forgot Password ?",
+                  style: TextStyle(color: Colors.deepPurple[400]),
+                )),
+          ),
+          SizedBox(
+            height: _size.height * 0.05,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () => trySubmit(),
+              child: Text("Log In"),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.deepPurple[400],
+                  fixedSize: const Size(200, 50),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50))),
+            ),
+          ),
+          OrDivider(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(onPressed: () {}, child: Text('Google')),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Don't have an account yet?"),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/register");
+                  },
+                  child: Text(
+                    "Create",
+                    style: TextStyle(color: Colors.deepPurple[400]),
+                  )),
+            ],
+          ),
         ],
       ),
     );

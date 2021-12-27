@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
-import 'package:provider/src/provider.dart';
 import 'package:translator_app/main.dart';
 import 'package:translator_app/screens/ScannerScreen.dart';
 
 import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 import 'package:translator_app/widgets/Translator.dart';
-
-import '../authentication_service.dart';
+import 'package:translator_app/widgets/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -34,17 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
         ),
-        drawer: Drawer(
-          elevation: 20,
-          child: ElevatedButton(
-            onPressed: () {
-              Provider.of<AuthenticationService>(context, listen: false)
-                  .signOut();
-              Navigator.pop(context);
-            },
-            child: Text("signout"),
-          ),
-        ),
+        drawer: CustomDrawer(),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex:
                 _currentindex, // this will be set when a new tab is tapped

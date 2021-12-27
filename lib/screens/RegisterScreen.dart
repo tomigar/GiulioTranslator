@@ -1,5 +1,3 @@
-import 'package:translator_app/widgets/Login/OrDIvider.dart';
-
 import '/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     void trySubmit() {
-      context.read<AuthenticationService>().signIn(
+      context.read<AuthenticationService>().signUp(
             email: emailController.text.trim(),
             password: passwordController.text.trim(),
           );
@@ -33,9 +31,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
+      body: Padding(
+        padding: EdgeInsets.all(_size.width * 0.05),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Text(
               "Create your account",
@@ -45,7 +44,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(117, 117, 117, 1)),
             ),
-            Padding(padding: EdgeInsets.all(20)),
+            SizedBox(
+              height: 20,
+            ),
             Form(
               child: Center(
                 child: Column(
@@ -95,16 +96,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                       ),
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(),
-                      onPressed: () => trySubmit(),
-                      child: Text("Log in"),
+                    SizedBox(
+                      height: _size.height * 0.05,
                     ),
-                    OrDivider(),
                   ],
                 ),
               ),
-            )
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    trySubmit();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Create"),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple[400],
+                      fixedSize: const Size(200, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50))),
+                ),
+              ),
+            ),
           ],
         ),
       ),
