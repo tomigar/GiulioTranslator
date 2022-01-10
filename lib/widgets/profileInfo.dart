@@ -23,13 +23,10 @@ class ProfileInfo extends StatelessWidget {
                   child: Icon(Icons.settings),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(CircleBorder()),
-                    overlayColor: MaterialStateProperty.all(Colors.green[100]),
-                    // foregroundColor: MaterialStateProperty.resolveWith(
-                    //   (states) => _getButtonColor(states),
-                    // ),
+                    overlayColor: MaterialStateProperty.all(Colors.purple[100]),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/profile/edit-profile');
+                    // Navigator.of(context).pushNamed('/profile/edit-profile');
                   },
                 ),
               ),
@@ -59,7 +56,7 @@ class ProfileInfo extends StatelessWidget {
 
               Container(
                 width: _size.width * .8,
-                child: Expanded(
+                child: Container(
                   child: Text(
                     "Tomáš Gardlík",
                     textAlign: TextAlign.center,

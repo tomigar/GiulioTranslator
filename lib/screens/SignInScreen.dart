@@ -10,6 +10,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
@@ -17,10 +19,16 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     void trySubmit() {
-      context.read<AuthenticationService>().signIn(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-          );
+      final isValid = _formKey.currentState.validate();
+      FocusScope.of(context).unfocus();
+
+      if (isValid) {
+        _formKey.currentState.save();
+        context.read<AuthenticationService>().signIn(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim(),
+            );
+      }
     }
 
     final Size _size = MediaQuery.of(context).size;
@@ -28,7 +36,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Padding(
       padding: EdgeInsets.all(_size.width * 0.05),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             "Hello",
@@ -48,6 +56,7 @@ class _SignInScreenState extends State<SignInScreen> {
             height: 20,
           ),
           Form(
+            key: _formKey,
             child: Center(
               child: Column(
                 children: [
@@ -74,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     controller: passwordController,
                     size: _size,
                     isPassword: _passwordVisible,
-                    isLast: true,
+                    isLast: false,
                     fieldSubmit: trySubmit,
                     validator: (String value) {
                       if (value.isEmpty || value.length < 7) {
@@ -109,39 +118,47 @@ class _SignInScreenState extends State<SignInScreen> {
                   style: TextStyle(color: Colors.deepPurple[400]),
                 )),
           ),
-          SizedBox(
-            height: _size.height * 0.05,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () => trySubmit(),
-              child: Text("Log In"),
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple[400],
-                  fixedSize: const Size(200, 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50))),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () => trySubmit(),
+                    child: Text("Log In"),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.deepPurple[400],
+                        fixedSize: const Size(200, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50))),
+                  ),
+                ),
+                OrDivider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                      // onPressed: () {
+                      //   context.read<AuthenticationService>().googleSignIn();
+                      // },
+                      child: Text('Google')),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account yet?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("/register");
+                        },
+                        child: Text(
+                          "Create",
+                          style: TextStyle(color: Colors.deepPurple[400]),
+                        )),
+                  ],
+                ),
+              ],
             ),
-          ),
-          OrDivider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(onPressed: () {}, child: Text('Google')),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Don't have an account yet?"),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/register");
-                  },
-                  child: Text(
-                    "Create",
-                    style: TextStyle(color: Colors.deepPurple[400]),
-                  )),
-            ],
           ),
         ],
       ),

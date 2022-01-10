@@ -4,7 +4,7 @@ import 'package:translator_app/screens/ScannerScreen.dart';
 
 import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 import 'package:translator_app/widgets/Translator.dart';
-import 'package:translator_app/widgets/drawer.dart';
+import 'package:translator_app/widgets/CustomDrawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,6 +12,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void initState() {
+    super.initState();
+    print("aplikacia nacitana");
+  }
+
   int _currentindex = 1;
   void setIndex(int index) {
     setState(() {
@@ -24,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -33,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         drawer: CustomDrawer(),
         bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            selectedItemColor: Colors.white,
             currentIndex:
                 _currentindex, // this will be set when a new tab is tapped
             items: [
@@ -65,9 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   break;
               }
             }),
-        body: SingleChildScrollView(
-          child: getWidget(_currentindex),
-        ),
+        body: getWidget(_currentindex),
       ),
     );
   }
