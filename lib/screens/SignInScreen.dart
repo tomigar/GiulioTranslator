@@ -138,9 +138,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      // onPressed: () {
-                      //   context.read<AuthenticationService>().googleSignIn();
-                      // },
+                      onPressed: () {
+                        context.read<AuthenticationService>().signInWithGoogle(context);
+                      },
                       child: Text('Google')),
                 ),
                 Row(
