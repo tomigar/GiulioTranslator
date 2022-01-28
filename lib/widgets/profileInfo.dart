@@ -1,6 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart' as aut;
 import 'package:flutter/material.dart';
 
+import 'Chat/Model/User.dart';
+import 'Chat/firebase_api.dart';
+
 class ProfileInfo extends StatelessWidget {
+  final aut.FirebaseAuth auth = aut.FirebaseAuth.instance;
+
+  int getCurrentUser(users) {
+    int number;
+    for (int i = 0; i < users.length; i++) {
+      if (users[i].userID == auth.currentUser.uid) {
+        number = i;
+      }
+    }
+    return number;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -34,41 +50,64 @@ class ProfileInfo extends StatelessWidget {
           ],
         ),
         Center(
-          child: Column(
-            children: [
-              // Container(
-              //             width: 100,
-              //             height: 100,
-              //             decoration: BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               image: DecorationImage(
-              //                   fit: BoxFit.cover,
-              //                   image: Image.file(file).image),
-              //             ),
-              //           )
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).backgroundColor),
-              ),
+          child: StreamBuilder<List<User>>(
+            stream: FirebaseApi.getUsers(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return Center(child: CircularProgressIndicator());
+                default:
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Text('Something Went Wrong Try later');
+                  } else {
+                    final users = snapshot.data;
 
-              Container(
-                width: _size.width * .8,
-                child: Container(
-                  child: Text(
-                    "Tomáš Gardlík",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ),
-              ),
-            ],
+                    if (users.isEmpty) {
+                      return Text('No Users Found');
+                    } else {
+                      return Column(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundImage: NetworkImage(
+                                  users[getCurrentUser(users)].photoURL),
+                            ),
+                          ),
+                          // Container(
+                          //   width: 100,
+                          //   height: 100,
+                          //   decoration: BoxDecoration(
+                          //       shape: BoxShape.circle,
+                          //       color: Theme.of(context).backgroundColor),
+                          // ),
+                          Container(
+                            width: _size.width * .8,
+                            child: Container(
+                              child: Text(
+                                users[getCurrentUser(users)].displayName ??
+                                    Container(),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  }
+              }
+            },
           ),
-        )
+        ),
       ],
     );
   }

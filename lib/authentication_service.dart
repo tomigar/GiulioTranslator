@@ -10,12 +10,10 @@ class AuthenticationService {
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
 
- 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
-  
   Future<String> signIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -27,7 +25,6 @@ class AuthenticationService {
     }
   }
 
-  
   Future<String> signUp(
       {String email,
       String password,
@@ -38,13 +35,14 @@ class AuthenticationService {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        FirebaseFirestore.instance
-            .collection('UserData')
-            .doc(value.user.uid)
-            .set({
-          "nickname": nickname,
-          "email": value.user.email,
+        FirebaseFirestore.instance.collection('users').doc(value.user.uid).set({
+          "userID": value.user.uid,
+          "displayName": nickname,
+          "photoURL":
+              "https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png",
+          "lastMessageTime": DateTime.now(),
           "nativeLanguage": nativeLanguage,
+          "friendsList": [],
         });
         Navigator.of(ctx).pop();
       });
@@ -68,28 +66,43 @@ class AuthenticationService {
   }
 
   Future signInWithGoogle(BuildContext ctx) async {
-    try{
+    try {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-    );
-    return await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-        FirebaseFirestore.instance
-            .collection('UserData')
-            .doc(value.user.uid)
-            .set({
-          "nickname": value.user.displayName,
-          "email": value.user.email,
-          "photo": value.user.photoURL,
-        },);
-        
-        },);
-    } on FirebaseAuthException catch(e){
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      return await FirebaseAuth.instance.signInWithCredential(credential).then(
+        (value) async {
+          var collection = FirebaseFirestore.instance.collection('users');
+          var querySnapshot = await collection.get();
+          bool isFriendsList = false;
+          for (var queryDocumentSnapshot in querySnapshot.docs) {
+            Map<String, dynamic> data = queryDocumentSnapshot.data();
+            if (data["friendsList"] != null) isFriendsList = true;
+          }
+          if (!isFriendsList)
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(value.user.uid)
+                .set(
+              {
+                "userID": value.user.uid,
+                "lastMessageTime": DateTime.now(),
+                "nativeLanguage": "English",
+                "displayName": value.user.displayName,
+                "photoURL": value.user.photoURL,
+                "friendsList": [],
+              },
+            );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
       return e.message;
     }
-  // Trigger the authentication flow
-  
-}
+    // Trigger the authentication flow
+  }
 }

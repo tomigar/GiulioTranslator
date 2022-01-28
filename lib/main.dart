@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 
 import 'package:translator_app/screens/HomeScreen.dart';
 import 'package:translator_app/screens/ScannerScreen.dart';
-import 'package:translator_app/screens/ChatScreen.dart';
 import 'package:translator_app/screens/RegisterScreen.dart';
 import 'package:translator_app/screens/SignInScreen.dart';
+import 'package:translator_app/widgets/Chat/Page/ChatsPage.dart';
 
 import 'authentication_service.dart';
 import 'providers/language_selector_provider.dart';
@@ -17,6 +17,7 @@ import 'providers/translate_text_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
@@ -39,6 +40,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    context.watch<User>();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -67,10 +69,9 @@ class AuthenticationWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User>();
 
     if (firebaseUser != null) {
-      print("prihlaseny");
-      return ChatScreen();
+      return ChatsPage();
+    } else {
+      return SignInScreen();
     }
-    print("neprihlaseny");
-    return SignInScreen();
   }
 }

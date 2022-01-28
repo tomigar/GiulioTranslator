@@ -83,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     controller: passwordController,
                     size: _size,
                     isPassword: _passwordVisible,
-                    isLast: false,
+                    isLast: true,
                     fieldSubmit: trySubmit,
                     validator: (String value) {
                       if (value.isEmpty || value.length < 7) {
@@ -137,11 +137,23 @@ class _SignInScreenState extends State<SignInScreen> {
                 OrDivider(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthenticationService>().signInWithGoogle(context);
-                      },
-                      child: Text('Google')),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      context
+                          .read<AuthenticationService>()
+                          .signInWithGoogle(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        // fixedSize: const Size(200, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50))),
+                    icon: Icon(Icons.access_time_rounded, color: Colors.black),
+                    label: Text(
+                      'Sign In with Google',
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    ),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -3,6 +3,7 @@ import 'package:translator_app/providers/translate_text_provider.dart';
 
 import 'package:tts_azure/tts_azure.dart';
 import 'package:provider/provider.dart';
+import '../authentication_service.dart';
 import '../providers/language_selector_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +73,7 @@ class _TranslatorState extends State<Translator> {
         // input TextField
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.22,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Colors.white),
@@ -89,6 +90,9 @@ class _TranslatorState extends State<Translator> {
                             color: Colors.grey,
                           ),
                           onTap: () {
+                            Provider.of<AuthenticationService>(context,
+                                    listen: false)
+                                .signOut();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 behavior: SnackBarBehavior.floating,
@@ -134,6 +138,7 @@ class _TranslatorState extends State<Translator> {
                   maxLines: 5,
                   controller: toTranslateController,
                   textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
                   enableSuggestions: true,
                   onChanged: (val) {
                     Provider.of<TranslateTextProvider>(context, listen: false)
@@ -157,7 +162,7 @@ class _TranslatorState extends State<Translator> {
         // output TextField
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.22,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Color.fromRGBO(58, 88, 244, 1)),

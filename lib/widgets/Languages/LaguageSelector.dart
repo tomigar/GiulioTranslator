@@ -46,9 +46,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       // if the search field is empty or only contains white-space, we'll display all users
       Provider.of<LanguageSelectProvider>(context, listen: false)
           .setResults(languages);
-      print('empty');
     } else {
-      print('entered:' + enteredKeyword);
       Provider.of<LanguageSelectProvider>(context, listen: false).setResults(
           languages
               .where((user) => user["name"]

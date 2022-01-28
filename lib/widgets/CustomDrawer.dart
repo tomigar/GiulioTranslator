@@ -20,23 +20,23 @@ class CustomDrawer extends StatelessWidget {
             children: [
               Container(
                 height: 300,
-                color: Color.fromARGB(249, 58, 89, 244),
-                // decoration: BoxDecoration(
-                //   gradient: LinearGradient(
-                //     begin: Alignment.topCenter,
-                //     end: Alignment.bottomCenter,
-                //     stops: [
-                //       0.1,
-                //       0.5,
-                //       1,
-                //     ],
-                //     colors: [
-                //       Color.fromARGB(249, 58, 89, 244),
-                //       Color.fromARGB(249, 58, 89, 244),
-                //       Color.fromARGB(0, 58, 89, 244),
-                //     ],
-                //   ),
-                //   ),
+                // color: Color.fromARGB(249, 58, 89, 244),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                      0.1,
+                      0.5,
+                      1,
+                    ],
+                    colors: [
+                      Color.fromARGB(249, 58, 89, 244),
+                      Color.fromARGB(249, 58, 89, 244),
+                      Color.fromARGB(0, 58, 89, 244),
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: statusBarHeight),
@@ -53,8 +53,8 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     (firebaseUser != null)
-                        ? Column(
-                            children: [ProfileInfo()],
+                        ? Container(
+                            child: ProfileInfo(),
                           )
                         : SizedBox(),
                   ],

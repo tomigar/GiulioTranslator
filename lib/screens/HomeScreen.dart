@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:translator_app/main.dart';
 import 'package:translator_app/screens/ScannerScreen.dart';
@@ -12,10 +13,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void initState() {
-    super.initState();
-    print("aplikacia nacitana");
-  }
+  // void initState() {
+  //   super.initState();
+  //   AuthenticationWrapper();
+  // }
 
   int _currentindex = 1;
   void setIndex(int index) {
@@ -38,41 +39,66 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         drawer: CustomDrawer(),
-        bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            selectedItemColor: Colors.white,
-            currentIndex:
-                _currentindex, // this will be set when a new tab is tapped
-            items: [
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.chat),
-                label: 'Chat',
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.translate),
-                label: 'Text',
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.camera_rounded),
-                label: 'Scanner',
-                backgroundColor: Colors.green,
-              ),
-            ],
-            onTap: (index) {
-              switch (index) {
-                case 0:
-                  setIndex(index);
-                  break;
-                case 1:
-                  setIndex(index);
-                  break;
-                case 2:
-                  setIndex(index);
-                  break;
-              }
-            }),
+        bottomNavigationBar: CurvedNavigationBar(
+          color: Theme.of(context).primaryColor,
+          backgroundColor: Colors.transparent,
+          height: 60,
+          index: _currentindex,
+          animationDuration: Duration(milliseconds: 300),
+          items: <Widget>[
+            Icon(Icons.chat, size: 30),
+            Icon(Icons.translate, size: 30),
+            Icon(Icons.camera_rounded, size: 30),
+          ],
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                setIndex(index);
+                break;
+              case 1:
+                setIndex(index);
+                break;
+              case 2:
+                setIndex(index);
+                break;
+            }
+          },
+        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //     backgroundColor: Theme.of(context).primaryColor,
+        //     selectedItemColor: Colors.white,
+        //     currentIndex:
+        //         _currentindex, // this will be set when a new tab is tapped
+        //     items: [
+        //       BottomNavigationBarItem(
+        //         icon: new Icon(Icons.chat),
+        //         label: 'Chat',
+        //         backgroundColor: Theme.of(context).primaryColor,
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: new Icon(Icons.translate),
+        //         label: 'Text',
+        //         backgroundColor: Theme.of(context).primaryColor,
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: new Icon(Icons.camera_rounded),
+        //         label: 'Scanner',
+        //         backgroundColor: Colors.green,
+        //       ),
+        //     ],
+        //     onTap: (index) {
+        //       switch (index) {
+        //         case 0:
+        //           setIndex(index);
+        //           break;
+        //         case 1:
+        //           setIndex(index);
+        //           break;
+        //         case 2:
+        //           setIndex(index);
+        //           break;
+        //       }
+        //     }),
         body: getWidget(_currentindex),
       ),
     );
