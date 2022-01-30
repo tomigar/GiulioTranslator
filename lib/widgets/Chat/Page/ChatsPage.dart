@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:translator_app/widgets/Chat/Model/User.dart';
 
 import '../ChatBodyWidget.dart';
-import '../ChatHeadeWidget.dart';
+import '../ChatHeaderWidget.dart';
 import '../firebase_api.dart';
 
 class ChatsPage extends StatelessWidget {

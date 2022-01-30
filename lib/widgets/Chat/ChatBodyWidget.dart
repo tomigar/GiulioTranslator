@@ -35,7 +35,7 @@ class ChatBodyWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25),
               topRight: Radius.circular(25),
@@ -101,6 +101,10 @@ class ChatBodyWidget extends StatelessWidget {
                       backgroundImage: NetworkImage(
                           getCurrentUserFriendsList()[index].photoURL),
                     ),
+                    //     CircleAvatar(
+                    //   radius: 30,
+                    //   backgroundColor: Colors.red,
+                    // ),
                   ),
                 ],
               ));

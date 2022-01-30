@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:translator_app/widgets/Chat/data.dart';
 
 import 'Model/User.dart';
 
@@ -7,21 +8,15 @@ class SearchUsers extends StatelessWidget {
   final BuildContext context;
   final List<User> users;
   final String au;
-  final List<User> currentFriends;
   SearchUsers({
     this.context,
     this.users,
     this.au,
-    this.currentFriends,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var friend = [];
-    for (var i in currentFriends) {
-      friend.add(i.userID);
-    }
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
@@ -32,11 +27,11 @@ class SearchUsers extends StatelessWidget {
       body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) => userTile(
-            index: index,
-            users: users,
-            context: context,
-            friend: friend,
-            au: au),
+          index: index,
+          users: users,
+          context: context,
+          au: au,
+        ),
       ),
     );
   }
@@ -46,9 +41,10 @@ Widget userTile({
   int index,
   var users,
   BuildContext context,
-  var friend,
   var au,
 }) {
+  //gets users requests
+
   return Container(
     margin: EdgeInsets.only(top: 20),
     alignment: Alignment.center,
@@ -56,21 +52,22 @@ Widget userTile({
       index: 1,
       child: GestureDetector(
         onTap: () {
-          if (!friend.contains(users[index].userID)) {
-            friend.add(users[index].userID);
-          }
+          var requests = users[index].requests;
+          if (!requests.contains(au)) requests.add(au);
           FirebaseFirestore.instance
               .collection('users')
-              .doc(au)
-              .update({"friendsList": friend});
+              .doc(users[index].userID)
+              .update({"requests": requests});
           Navigator.of(context).pop();
         },
         onLongPress: () {
-          friend.removeWhere((item) => item == users[index].userID);
+          var requests;
+          requests = users[index].requests;
+          requests.remove(au);
           FirebaseFirestore.instance
               .collection('users')
-              .doc(au)
-              .update({"friendsList": friend});
+              .doc(users[index].userID)
+              .update({"requests": requests});
           Navigator.of(context).pop();
         },
         child: Stack(
@@ -88,7 +85,7 @@ Widget userTile({
                       horizontal: MediaQuery.of(context).size.width * 0.1),
                   trailing: Text(users[index].nativeLanguage),
                   title: Text(users[index].displayName),
-                  subtitle: Text("Created 10.8.2002"),
+                  subtitle: Text("Add User"),
                 ),
               ),
             ),
@@ -106,3 +103,22 @@ Widget userTile({
     ),
   );
 }
+
+
+// onTap: () {
+//           if (!friend.contains(users[index].userID)) {
+//             friend.add(users[index].userID);
+//           }
+//           FirebaseFirestore.instance
+//               .collection('users')
+//               .doc(au)
+//               .update({"friendsList": friend});
+//           Navigator.of(context).pop();
+//         },
+//         onLongPress: () {
+//           friend.removeWhere((item) => item == users[index].userID);
+//           FirebaseFirestore.instance
+//               .collection('users')
+//               .doc(au)
+//               .update({"friendsList": friend});
+//           Navigator.of(context).pop();

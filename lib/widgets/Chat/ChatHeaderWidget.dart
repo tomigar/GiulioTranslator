@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as aut;
+import 'package:translator_app/widgets/Chat/RequestsWidget.dart';
 import 'package:translator_app/widgets/Chat/SearchUsers.dart';
 import 'Model/User.dart';
 
@@ -27,8 +28,25 @@ class ChatHeaderWidget extends StatelessWidget {
         }
       }
     }
-
     return currentFriendsL;
+  }
+
+  List<User> getCurrentUserRequests() {
+    List<User> currentUserR = [];
+    var currentRequests = [];
+    for (final req in users) {
+      if (req.userID == auth.currentUser.uid) {
+        currentRequests = req.requests;
+      }
+    }
+    for (final user in users) {
+      for (int i = 0; i < currentRequests.length; i++) {
+        if (user.userID == currentRequests[i]) {
+          currentUserR.add(user);
+        }
+      }
+    }
+    return currentUserR;
   }
 
   @override
@@ -46,10 +64,10 @@ class ChatHeaderWidget extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => SearchUsers(
-                        context: context,
-                        users: users,
-                        au: auth.currentUser.uid,
-                        currentFriends: getCurrentUserFriendsList()),
+                      context: context,
+                      users: users,
+                      au: auth.currentUser.uid,
+                    ),
                   ),
                 );
               },
@@ -94,22 +112,16 @@ class ChatHeaderWidget extends StatelessWidget {
             flex: 1,
             child: ElevatedButton(
               onPressed: () {
-                List<User> currentFriendsL = [];
-                var currentFriends;
-                for (final friends in users) {
-                  if (friends.userID == auth.currentUser.uid) {
-                    currentFriends = friends.friendsList;
-                  }
-                }
-                for (final user in users) {
-                  for (int i = 0; i < currentFriends.length; i++) {
-                    if (user.userID == currentFriends[i]) {
-                      currentFriendsL.add(user);
-                    }
-                  }
-                }
-                print(currentFriendsL);
-                return currentFriendsL;
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RequestsWidget(
+                        context: context,
+                        users: users,
+                        au: auth.currentUser.uid,
+                        requests: getCurrentUserRequests(),
+                        currentFriends: getCurrentUserFriendsList()),
+                  ),
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(

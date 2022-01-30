@@ -126,7 +126,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () => trySubmit(),
-                    child: Text("Log In"),
+                    child: Text(
+                      "Log In",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                         primary: Colors.deepPurple[400],
                         fixedSize: const Size(200, 50),
@@ -148,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         // fixedSize: const Size(200, 50),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50))),
-                    icon: Icon(Icons.access_time_rounded, color: Colors.black),
+                    icon: Icon(Icons.add_circle_rounded, color: Colors.black),
                     label: Text(
                       'Sign In with Google',
                       style: TextStyle(color: Colors.black, fontSize: 15),

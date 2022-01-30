@@ -43,6 +43,7 @@ class AuthenticationService {
           "lastMessageTime": DateTime.now(),
           "nativeLanguage": nativeLanguage,
           "friendsList": [],
+          "requests": [],
         });
         Navigator.of(ctx).pop();
       });
@@ -96,6 +97,7 @@ class AuthenticationService {
                 "displayName": value.user.displayName,
                 "photoURL": value.user.photoURL,
                 "friendsList": [],
+                "requests": [],
               },
             );
         },

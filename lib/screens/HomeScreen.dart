@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: CustomDrawer(),
         bottomNavigationBar: CurvedNavigationBar(
           color: Theme.of(context).primaryColor,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           height: 60,
           index: _currentindex,
           animationDuration: Duration(milliseconds: 300),
