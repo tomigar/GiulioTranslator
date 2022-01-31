@@ -23,16 +23,23 @@ class RequestsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Requests")),
-      body: ListView.builder(
-        itemCount: requests.length,
-        itemBuilder: (context, index) => requestTile(
-            index: index,
-            users: users,
-            context: context,
-            requests: requests,
-            currentfriends: currentFriends,
-            au: au),
-      ),
+      body: (requests.length > 0)
+          ? ListView.builder(
+              itemCount: requests.length,
+              itemBuilder: (context, index) => requestTile(
+                  index: index,
+                  users: users,
+                  context: context,
+                  requests: requests,
+                  currentfriends: currentFriends,
+                  au: au),
+            )
+          : Center(
+              child: Text(
+                "You don't have any requests :(",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
     );
   }
 }
@@ -46,6 +53,7 @@ Widget requestTile({
   var au,
 }) {
   void requestHandler(index) {
+    Navigator.of(context).pop();
 // adds accepted user in friendList
     var friends = [];
     currentfriends.add(requests[index]);
@@ -69,16 +77,15 @@ Widget requestTile({
         .update({"requests": request});
     // adds your userID in friends friendList
     var usersFriendsList = [];
-    for (final x in users) {
-      if (x == requests[index]) usersFriendsList = x.friendsList;
+    for (final us in users) {
+      if (us == requests[index]) usersFriendsList = us.friendsList;
     }
     if (!usersFriendsList.contains(au)) usersFriendsList.add(au);
+    print(usersFriendsList);
     FirebaseFirestore.instance
         .collection('users')
         .doc(requests[index].userID)
         .update({"friendsList": usersFriendsList});
-
-    Navigator.of(context).pop();
   }
 
   return Container(

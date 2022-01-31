@@ -51,6 +51,8 @@ class ChatHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getCurrentUserFriendsList();
+    getCurrentUserRequests();
     return Container(
       width: MediaQuery.of(context).size.width * .9,
       child: Row(
@@ -67,6 +69,7 @@ class ChatHeaderWidget extends StatelessWidget {
                       context: context,
                       users: users,
                       au: auth.currentUser.uid,
+                      currentFriendsList: getCurrentUserFriendsList(),
                     ),
                   ),
                 );
@@ -115,11 +118,12 @@ class ChatHeaderWidget extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => RequestsWidget(
-                        context: context,
-                        users: users,
-                        au: auth.currentUser.uid,
-                        requests: getCurrentUserRequests(),
-                        currentFriends: getCurrentUserFriendsList()),
+                      context: context,
+                      au: auth.currentUser.uid,
+                      requests: getCurrentUserRequests(),
+                      currentFriends: getCurrentUserFriendsList(),
+                      users: users,
+                    ),
                   ),
                 );
               },
@@ -136,11 +140,16 @@ class ChatHeaderWidget extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Icon(Icons.favorite_border),
+                  (getCurrentUserRequests().length != 0)
+                      ? Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : Icon(Icons.favorite_border_outlined),
                   Text(
                     "Request",
                     textAlign: TextAlign.center,
-                  ),
+                  )
                 ],
               ),
             ),

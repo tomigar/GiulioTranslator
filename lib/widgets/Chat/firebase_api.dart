@@ -38,38 +38,7 @@ class FirebaseApi {
           .snapshots()
           .transform(Utils.transformer(Message.fromJson));
 
-  static Future addRandomUsers(List<User> users) async {
-    final refUsers = FirebaseFirestore.instance.collection('users');
-
-    final allUsers = await refUsers.get();
-    if (allUsers.size != 0) {
-      return;
-    } else {
-      for (final user in users) {
-        final userDoc = refUsers.doc();
-        final newUser = user.copyWith(userID: userDoc.id);
-
-        await userDoc.set(newUser.toJson());
-      }
-    }
-  }
-
   ////////////////////////////////////////////////////////////////////////////////
-
-  Future addUserInfoToDB(
-      String userId, Map<String, dynamic> userInfoMap) async {
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)
-        .set(userInfoMap);
-  }
-
-  Future<Stream<QuerySnapshot>> getUserByUserName(String username) async {
-    return FirebaseFirestore.instance
-        .collection("users")
-        .where("username", isEqualTo: username)
-        .snapshots();
-  }
 
   Future addMessage(
       String chatRoomId, String messageId, Map messageInfoMap) async {
