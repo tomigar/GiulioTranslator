@@ -13,7 +13,7 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = Radius.circular(12);
+    final radius = Radius.circular(18);
     final borderRadius = BorderRadius.all(radius);
 
     return Row(
@@ -23,7 +23,7 @@ class MessageWidget extends StatelessWidget {
           CircleAvatar(
               radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(16),
           constraints: BoxConstraints(maxWidth: 140),
           decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class MessageWidget extends StatelessWidget {
     );
   }
 
-  Widget buildMessage() => Column(
+  buildMessage() => Column(
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
@@ -49,6 +49,7 @@ class MessageWidget extends StatelessWidget {
             style: TextStyle(color: isMe ? Colors.black : Colors.white),
             textAlign: isMe ? TextAlign.end : TextAlign.start,
           ),
+          Text(message.translatedMessage)
         ],
       );
 }

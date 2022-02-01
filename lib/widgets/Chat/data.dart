@@ -1,10 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+Future<Stream<QuerySnapshot>> getdata(chatRoomId) async {
+  return FirebaseFirestore.instance
+      .collection("users")
+      .where("userID", isEqualTo: auth.currentUser.uid)
+      .snapshots();
+}
+
+String myId = auth.currentUser.uid;
+String myUsername = auth.currentUser.uid;
+String myUrlAvatar = 'https://i.imgur.com/GXoYikT.png';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 // Christine
-String myId = auth.currentUser.uid;
-String myUsername = auth.currentUser.displayName;
-String myUrlAvatar = 'https://i.imgur.com/GXoYikT.png';
 
 // Napoleon
 // String myId = 'YB0XmxZ7KiZTHGtGRpue';
