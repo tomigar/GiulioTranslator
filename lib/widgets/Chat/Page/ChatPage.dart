@@ -29,7 +29,10 @@ class _ChatPageState extends State<ChatPage> {
         child: SafeArea(
           child: Column(
             children: [
-              ProfileHeaderWidget(name: widget.user.displayName),
+              ProfileHeaderWidget(
+                name: widget.user.displayName,
+                language: widget.user.nativeLanguage,
+              ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(10),
@@ -43,7 +46,10 @@ class _ChatPageState extends State<ChatPage> {
                   child: MessagesWidget(idUser: chatRoomID.toString()),
                 ),
               ),
-              NewMessageWidget(idUser: chatRoomID.toString())
+              NewMessageWidget(
+                idUser: chatRoomID.toString(),
+                nativeLanguage: widget.user.nativeLanguage,
+              )
             ],
           ),
         ),

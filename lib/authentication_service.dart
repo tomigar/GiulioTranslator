@@ -78,14 +78,7 @@ class AuthenticationService {
 
       return await FirebaseAuth.instance.signInWithCredential(credential).then(
         (value) async {
-          var collection = FirebaseFirestore.instance.collection('users');
-          var querySnapshot = await collection.get();
-          bool isFriendsList = false;
-          for (var queryDocumentSnapshot in querySnapshot.docs) {
-            Map<String, dynamic> data = queryDocumentSnapshot.data();
-            if (data["friendsList"] != null) isFriendsList = true;
-          }
-          if (!isFriendsList)
+          if (value.additionalUserInfo.isNewUser)
             FirebaseFirestore.instance
                 .collection('users')
                 .doc(value.user.uid)

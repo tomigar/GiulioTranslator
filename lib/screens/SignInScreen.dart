@@ -143,7 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 OrDivider(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: () {
                       context
                           .read<AuthenticationService>()
@@ -151,13 +151,24 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                         primary: Colors.white,
-                        // fixedSize: const Size(200, 50),
+                        fixedSize: const Size(250, 50),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50))),
-                    icon: Icon(Icons.add_circle_rounded, color: Colors.black),
-                    label: Text(
-                      'Sign In with Google',
-                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                          width: 25,
+                          image: AssetImage('assets/icons/google_logo.png'),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Sign In with Google',
+                          style: TextStyle(color: Colors.black, fontSize: 15),
+                        ),
+                      ],
                     ),
                   ),
                 ),

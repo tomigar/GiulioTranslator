@@ -28,8 +28,8 @@ class MessageWidget extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: 140),
           decoration: BoxDecoration(
             color: isMe
-                ? Colors.grey[100]
-                : Theme.of(context).colorScheme.secondary,
+                ? Theme.of(context).colorScheme.primary
+                : Color.fromRGBO(139, 143, 255, 1),
             borderRadius: isMe
                 ? borderRadius.subtract(BorderRadius.only(bottomRight: radius))
                 : borderRadius.subtract(BorderRadius.only(bottomLeft: radius)),
@@ -45,11 +45,21 @@ class MessageWidget extends StatelessWidget {
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            message.message,
-            style: TextStyle(color: isMe ? Colors.black : Colors.white),
-            textAlign: isMe ? TextAlign.end : TextAlign.start,
+            message.translatedMessage,
+            style: TextStyle(
+              color: isMe ? Colors.white : Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: isMe ? TextAlign.start : TextAlign.start,
           ),
-          Text(message.translatedMessage)
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            message.message,
+            style: TextStyle(color: isMe ? Colors.black : Colors.black),
+            textAlign: isMe ? TextAlign.start : TextAlign.start,
+          ),
         ],
       );
 }

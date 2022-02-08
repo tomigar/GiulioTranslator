@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
   final String name;
+  final String language;
 
   const ProfileHeaderWidget({
     @required this.name,
+    @required this.language,
     Key key,
   }) : super(key: key);
 
@@ -32,9 +34,14 @@ class ProfileHeaderWidget extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    buildIcon(Icons.call),
-                    SizedBox(width: 12),
-                    buildIcon(Icons.videocam),
+                    Text(
+                      language,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(width: 4),
@@ -42,14 +49,5 @@ class ProfileHeaderWidget extends StatelessWidget {
             )
           ],
         ),
-      );
-
-  Widget buildIcon(IconData icon) => Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white54,
-        ),
-        child: Icon(icon, size: 25, color: Colors.white),
       );
 }

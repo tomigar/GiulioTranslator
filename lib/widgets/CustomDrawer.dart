@@ -12,6 +12,7 @@ class CustomDrawer extends StatelessWidget {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Drawer(
+      backgroundColor: Color.fromRGBO(235, 235, 237, 1),
       elevation: 20,
       child: Column(
         children: [
@@ -60,6 +61,44 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [Text("Your language"), Icon(Icons.flag)],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Saved Translations"),
+                        Icon(Icons.star_border_outlined)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Text("data"),
             ],
           ),
           (firebaseUser != null)

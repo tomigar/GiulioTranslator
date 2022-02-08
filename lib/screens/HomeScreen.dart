@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:translator_app/main.dart';
-import 'package:translator_app/screens/ScannerScreen.dart';
+import 'package:translator_app/screens/SpeechScreen.dart';
 
 import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 import 'package:translator_app/widgets/Translator.dart';
@@ -13,11 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // void initState() {
-  //   super.initState();
-  //   AuthenticationWrapper();
-  // }
-
   int _currentindex = 1;
   void setIndex(int index) {
     setState(() {
@@ -111,6 +106,6 @@ Widget getWidget(index) {
     return Column(
       children: [LanguageSelector(), Translator()],
     );
-  if (index == 2) return ScannerScreen();
+  if (index == 2) return SpeechScreen();
   return SizedBox();
 }

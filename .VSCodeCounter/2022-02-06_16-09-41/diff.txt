@@ -1,0 +1,44 @@
+Date : 2022-02-06 16:09:41
+Directory : c:\Programovanie\Flutter\Projects\GiulioTranslator
+Total : 13 files,  29 codes, -3 comments, -7 blanks, all 19 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         12 |         26 |          0 |         -7 |         19 |
+| YAML     |          1 |          3 |         -3 |          0 |          0 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                        | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                           |         13 |         29 |         -3 |         -7 |         19 |
+| lib                                                                                         |         12 |         26 |          0 |         -7 |         19 |
+| lib\screens                                                                                 |          1 |         12 |         -1 |          0 |         11 |
+| lib\widgets                                                                                 |         10 |         21 |          1 |         -7 |         15 |
+| lib\widgets\Chat                                                                            |          9 |         18 |          1 |         -7 |         12 |
+| lib\widgets\Chat\Model                                                                      |          1 |          0 |          0 |          1 |          1 |
+| lib\widgets\Chat\Page                                                                       |          1 |         11 |          0 |          0 |         11 |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                    | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\authentication_service.dart          | Dart     |         -7 |          0 |          0 |         -7 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\SignInScreen.dart            | Dart     |         12 |         -1 |          0 |         11 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\ChatHeaderWidget.dart   | Dart     |         -7 |          8 |          0 |          1 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\MessageWidget.dart      | Dart     |         11 |          0 |          0 |         11 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Model\ChatRoom.dart     | Dart     |          0 |          0 |          1 |          1 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\NewMessageWidget.dart   | Dart     |         38 |          0 |          3 |         41 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Page\ChatPage.dart      | Dart     |         11 |          0 |          0 |         11 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\ProfieHeaderWIdget.dart | Dart     |         -1 |          0 |         -1 |         -2 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\SearchUsers.dart        | Dart     |         33 |          3 |          4 |         40 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\data.dart               | Dart     |          1 |          1 |          0 |          2 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\firebase_api.dart       | Dart     |        -68 |        -11 |        -14 |        -93 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Translator.dart              | Dart     |          3 |          0 |          0 |          3 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\pubspec.yaml                             | YAML     |          3 |         -3 |          0 |          0 |
+| Total                                                                                       |          |         29 |         -3 |         -7 |         19 |
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

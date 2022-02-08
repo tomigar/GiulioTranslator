@@ -93,6 +93,9 @@ class _TranslatorState extends State<Translator> {
                             Provider.of<AuthenticationService>(context,
                                     listen: false)
                                 .signOut();
+                            Provider.of<AuthenticationService>(context,
+                                    listen: false)
+                                .signOut();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 behavior: SnackBarBehavior.floating,

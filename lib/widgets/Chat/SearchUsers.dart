@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Model/User.dart';
 
-class SearchUsers extends StatelessWidget {
+class SearchUsers extends StatefulWidget {
   final BuildContext context;
   final List<User> users;
   final List<User> currentFriendsList;
@@ -17,11 +17,38 @@ class SearchUsers extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SearchUsers> createState() => _SearchUsersState();
+}
+
+class _SearchUsersState extends State<SearchUsers> {
+  List<User> _foundUsers = [];
+
+  @override
   Widget build(BuildContext context) {
-    var userss = [];
-    for (final us in users) {
-      if (us.userID != au) {
-        userss.add(us);
+    @override
+
+    // This function is called whenever the text field changes
+    void _runFilter(String enteredKeyword) {
+      List<User> results = [];
+      if (enteredKeyword.isNotEmpty) {
+        results = widget.users
+            .where((user) => user.displayName
+                .toLowerCase()
+                .startsWith(enteredKeyword.toLowerCase()))
+            .toList();
+        // we use the toLowerCase() method to make it case-insensitive
+      }
+      // Refresh the UI
+      setState(() {
+        _foundUsers = results;
+        print(_foundUsers);
+      });
+    }
+
+    var usersList = [];
+    for (final us in widget.users) {
+      if (us.userID != widget.au) {
+        usersList.add(us);
       }
     }
 
@@ -29,17 +56,18 @@ class SearchUsers extends StatelessWidget {
       appBar: AppBar(
         title: TextFormField(
           autofocus: true,
+          onChanged: (val) => _runFilter(val),
           decoration: InputDecoration(hintText: "Search"),
         ),
       ),
       body: ListView.builder(
-        itemCount: userss.length,
+        itemCount: _foundUsers.length,
         itemBuilder: (context, index) => userTile(
           index: index,
-          users: userss,
-          friends: currentFriendsList,
+          users: _foundUsers,
+          friends: widget.currentFriendsList,
           context: context,
-          au: au,
+          au: widget.au,
         ),
       ),
     );

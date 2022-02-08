@@ -268,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       child: Text("Create"),
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).indicatorColor,
+                          primary: Colors.deepPurple[400],
                           fixedSize: const Size(200, 50),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50))),
