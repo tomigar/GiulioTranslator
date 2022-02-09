@@ -75,7 +75,7 @@ class _NearbyUsersState extends State<NearbyUsers> {
   @override
   Widget build(BuildContext context) {
     _getCurrentLocation();
-    (_currentPosition != null) ? getNearby() : null;
+    if (_currentPosition != null) getNearby();
     return Scaffold(
       appBar: AppBar(title: Text("Search Nearby")),
       body: Container(
