@@ -44,6 +44,7 @@ class AuthenticationService {
           "nativeLanguage": nativeLanguage,
           "friendsList": [],
           "requests": [],
+          "lastLocation": [],
         });
         Navigator.of(ctx).pop();
       });
@@ -91,6 +92,7 @@ class AuthenticationService {
                 "photoURL": value.user.photoURL,
                 "friendsList": [],
                 "requests": [],
+                "lastLocation": [],
               },
             );
         },

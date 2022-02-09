@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as aut;
 import 'package:translator_app/widgets/Chat/RequestsWidget.dart';
 import 'package:translator_app/widgets/Chat/SearchUsers.dart';
 import 'Model/User.dart';
+import 'NearbyUsers.dart';
 
 class ChatHeaderWidget extends StatelessWidget {
   final aut.FirebaseAuth auth = aut.FirebaseAuth.instance;
@@ -59,7 +60,7 @@ class ChatHeaderWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            flex: 2,
+            flex: 3,
             fit: FlexFit.tight,
             child: ElevatedButton.icon(
               onPressed: () {
@@ -91,7 +92,16 @@ class ChatHeaderWidget extends StatelessWidget {
           Flexible(
             flex: 1,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NearbyUsers(
+                      users: users,
+                      currentFriendsList: getCurrentUserFriendsList(),
+                    ),
+                  ),
+                );
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                     Color.fromRGBO(100, 100, 100, .2),
@@ -103,10 +113,6 @@ class ChatHeaderWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(Icons.location_on_outlined),
-                  // Text(
-                  //   "Nearby",
-                  //   textAlign: TextAlign.center,
-                  // ),
                 ],
               ),
             ),
@@ -146,10 +152,6 @@ class ChatHeaderWidget extends StatelessWidget {
                           color: Colors.red,
                         )
                       : Icon(Icons.favorite_border_outlined),
-                  // Text(
-                  //   "Request",
-                  //   textAlign: TextAlign.center,
-                  // )
                 ],
               ),
             ),

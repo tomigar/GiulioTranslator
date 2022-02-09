@@ -54,7 +54,7 @@ Widget requestTile({
 }) {
   void requestHandler(index) {
     Navigator.of(context).pop();
-// adds accepted user in friendList
+    // adds accepted user in friendList
     var friends = [];
     currentfriends.add(requests[index]);
     for (final us in currentfriends) {

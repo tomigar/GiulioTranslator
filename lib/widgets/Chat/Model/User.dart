@@ -14,6 +14,7 @@ class User {
   final String nativeLanguage;
   final List friendsList;
   final List requests;
+  final List lastLocation;
 
   const User({
     this.userID,
@@ -23,6 +24,7 @@ class User {
     this.nativeLanguage,
     this.friendsList,
     this.requests,
+    this.lastLocation,
   });
 
   User copyWith({
@@ -32,6 +34,7 @@ class User {
     String lastMessageTime,
     List friendsList,
     List requests,
+    List lastLocation,
   }) =>
       User(
         userID: userID ?? this.userID,
@@ -41,6 +44,7 @@ class User {
         nativeLanguage: nativeLanguage ?? this.nativeLanguage,
         friendsList: friendsList ?? this.friendsList,
         requests: requests ?? this.requests,
+        lastLocation: lastLocation ?? this.lastLocation,
       );
 
   static User fromJson(Map<String, dynamic> json) => User(
@@ -51,6 +55,7 @@ class User {
         nativeLanguage: json['nativeLanguage'],
         friendsList: json['friendsList'],
         requests: json['requests'],
+        lastLocation: json['lastLocation'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +66,6 @@ class User {
         'nativeLanguage': nativeLanguage,
         'friendsList': friendsList,
         'requests': requests,
+        'lastLocation': lastLocation,
       };
 }

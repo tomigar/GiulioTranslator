@@ -1,74 +1,95 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:translator_app/widgets/Chat/data.dart';
 import 'Model/User.dart';
 
-class SearchUsers extends StatefulWidget {
-  final BuildContext context;
+class NearbyUsers extends StatefulWidget {
   final List<User> users;
   final List<User> currentFriendsList;
-  final String au;
 
-  SearchUsers({
-    this.context,
+  NearbyUsers({
     this.users,
     this.currentFriendsList,
-    this.au,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
-  State<SearchUsers> createState() => _SearchUsersState();
+  State<NearbyUsers> createState() => _NearbyUsersState();
 }
 
-class _SearchUsersState extends State<SearchUsers> {
-  List<User> _foundUsers = [];
+class _NearbyUsersState extends State<NearbyUsers> {
+  List<User> nearby = [];
+
+  Position _currentPosition;
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  _getCurrentLocation() async {
+    await geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(
+        () {
+          _currentPosition = position;
+          FirebaseFirestore.instance
+              .collection("users")
+              .doc(auth.currentUser.uid)
+              .update(
+            {
+              "lastLocation": [
+                _currentPosition.latitude,
+                _currentPosition.longitude
+              ]
+            },
+          );
+        },
+      );
+
+      return _currentPosition;
+    });
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  getNearby() {
+    for (final user in widget.users) {
+      var loc = user.lastLocation;
+      if (calculateDistance(loc[0], loc[1], _currentPosition.latitude,
+                  _currentPosition.longitude) <=
+              1 &&
+          !nearby.contains(user) &&
+          user.userID != auth.currentUser.uid) nearby.add(user);
+      print(calculateDistance(loc[0], loc[1], _currentPosition.latitude,
+          _currentPosition.longitude));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    @override
-
-    // This function is called whenever the text field changes
-    void _runFilter(String enteredKeyword) {
-      List<User> results = [];
-      if (enteredKeyword.isNotEmpty) {
-        results = widget.users
-            .where((user) => user.displayName
-                .toLowerCase()
-                .startsWith(enteredKeyword.toLowerCase()))
-            .toList();
-        // we use the toLowerCase() method to make it case-insensitive
-      }
-      // Refresh the UI
-      setState(() {
-        _foundUsers = results;
-        print(_foundUsers);
-      });
-    }
-
-    var usersList = [];
-    for (final us in widget.users) {
-      if (us.userID != widget.au) {
-        usersList.add(us);
-      }
-    }
-
+    _getCurrentLocation();
+    (_currentPosition != null) ? getNearby() : null;
     return Scaffold(
-      appBar: AppBar(
-        title: TextFormField(
-          autofocus: true,
-          onChanged: (val) => _runFilter(val),
-          decoration: InputDecoration(hintText: "Search"),
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: _foundUsers.length,
-        itemBuilder: (context, index) => userTile(
-          index: index,
-          users: _foundUsers,
-          friends: widget.currentFriendsList,
-          context: context,
-          au: widget.au,
-        ),
+      appBar: AppBar(title: Text("Search Nearby")),
+      body: Container(
+        child: (nearby.isNotEmpty)
+            ? ListView.builder(
+                itemCount: nearby.length,
+                itemBuilder: (context, index) => userTile(
+                    index: index,
+                    users: nearby,
+                    friends: widget.currentFriendsList,
+                    context: context,
+                    au: auth.currentUser.uid),
+              )
+            : Center(child: Text("Searching...")),
       ),
     );
   }
@@ -149,22 +170,3 @@ Widget userTile({
     ),
   );
 }
-
-
-// onTap: () {
-//           if (!friend.contains(users[index].userID)) {
-//             friend.add(users[index].userID);
-//           }
-//           FirebaseFirestore.instance
-//               .collection('users')
-//               .doc(au)
-//               .update({"friendsList": friend});
-//           Navigator.of(context).pop();
-//         },
-//         onLongPress: () {
-//           friend.removeWhere((item) => item == users[index].userID);
-//           FirebaseFirestore.instance
-//               .collection('users')
-//               .doc(au)
-//               .update({"friendsList": friend});
-//           Navigator.of(context).pop();

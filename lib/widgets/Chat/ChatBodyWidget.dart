@@ -1,54 +1,67 @@
 import 'package:firebase_auth/firebase_auth.dart' as aut;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../authentication_service.dart';
 import 'Model/User.dart';
 import 'Page/ChatPage.dart';
 
 class ChatBodyWidget extends StatelessWidget {
   final aut.FirebaseAuth auth = aut.FirebaseAuth.instance;
   final List<User> users;
+  // final Stream<List<ChatRoom>> chatRooms;
 
   ChatBodyWidget({
     @required this.users,
+    // @required this.chatRooms,
     Key key,
   }) : super(key: key);
 
-  List<User> getCurrentUserFriendsList() {
-    List<User> currentFriendsL = [];
-    var currentFriends;
-    for (final friends in users) {
-      if (friends.userID == auth.currentUser.uid) {
-        currentFriends = friends.friendsList;
-      }
-    }
-    for (final user in users) {
-      for (int i = 0; i < currentFriends.length; i++) {
-        if (user.userID == currentFriends[i]) {
-          currentFriendsL.add(user);
+  List<User> getCurrentUserFriendsList(context) {
+    try {
+      List<User> currentFriendsL = [];
+      var currentFriends;
+      for (final friends in users) {
+        if (friends.userID == auth.currentUser.uid) {
+          currentFriends = friends.friendsList;
         }
       }
+      for (final user in users) {
+        for (int i = 0; i < currentFriends.length; i++) {
+          if (user.userID == currentFriends[i]) {
+            currentFriendsL.add(user);
+          }
+        }
+      }
+      return currentFriendsL;
+    } catch (e) {
+      Provider.of<AuthenticationService>(context, listen: false).signOut();
+
+      return null;
     }
-    return currentFriendsL;
   }
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25),
-              topRight: Radius.circular(25),
-            ),
+  Widget build(BuildContext context) {
+    // print(chatRooms);
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
           ),
-          child: buildChats(context),
         ),
-      );
+        child: buildChats(context),
+      ),
+    );
+  }
 
   Widget buildChats(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
 
-    if (getCurrentUserFriendsList().length == 0) {
+    if (getCurrentUserFriendsList(context).length == 0) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +74,7 @@ class ChatBodyWidget extends StatelessWidget {
     }
     return ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: getCurrentUserFriendsList().length,
+        itemCount: getCurrentUserFriendsList(context).length,
         itemBuilder: (context, index) {
           return Container(
               margin: EdgeInsets.only(top: 20),
@@ -79,15 +92,16 @@ class ChatBodyWidget extends StatelessWidget {
                       child: ListTile(
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: _size.width * 0.1),
-                        trailing: Text(
-                            getCurrentUserFriendsList()[index].nativeLanguage),
-                        title: Text(
-                            getCurrentUserFriendsList()[index].displayName),
+                        trailing: Text(getCurrentUserFriendsList(context)[index]
+                            .nativeLanguage),
+                        title: Text(getCurrentUserFriendsList(context)[index]
+                            .displayName),
                         subtitle: Text("lastCHat"),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
-                                user: getCurrentUserFriendsList()[index]),
+                                user:
+                                    getCurrentUserFriendsList(context)[index]),
                           ));
                         },
                       ),
@@ -99,7 +113,7 @@ class ChatBodyWidget extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 30,
                       backgroundImage: NetworkImage(
-                          getCurrentUserFriendsList()[index].photoURL),
+                          getCurrentUserFriendsList(context)[index].photoURL),
                     ),
                     //     CircleAvatar(
                     //   radius: 30,

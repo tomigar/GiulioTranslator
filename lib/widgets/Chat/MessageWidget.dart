@@ -24,7 +24,7 @@ class MessageWidget extends StatelessWidget {
               radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
         Container(
           padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(16),
+          margin: EdgeInsets.all(3),
           constraints: BoxConstraints(maxWidth: 140),
           decoration: BoxDecoration(
             color: isMe
