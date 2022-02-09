@@ -22,6 +22,7 @@ class NearbyUsers extends StatefulWidget {
 
 class _NearbyUsersState extends State<NearbyUsers> {
   List<User> nearby = [];
+  bool opened = true;
 
   Position _currentPosition;
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
@@ -67,14 +68,15 @@ class _NearbyUsersState extends State<NearbyUsers> {
               1 &&
           !nearby.contains(user) &&
           user.userID != auth.currentUser.uid) nearby.add(user);
-      print(calculateDistance(loc[0], loc[1], _currentPosition.latitude,
-          _currentPosition.longitude));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _getCurrentLocation();
+    if (opened) {
+      _getCurrentLocation();
+      opened = false;
+    }
     if (_currentPosition != null) getNearby();
     return Scaffold(
       appBar: AppBar(title: Text("Search Nearby")),
