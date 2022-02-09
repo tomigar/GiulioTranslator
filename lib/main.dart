@@ -2,14 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:translator_app/screens/HomeScreen.dart';
 import 'package:translator_app/screens/SpeechScreen.dart';
 import 'package:translator_app/screens/RegisterScreen.dart';
 import 'package:translator_app/screens/SignInScreen.dart';
-import 'package:translator_app/widgets/Chat/Location.dart';
 import 'package:translator_app/widgets/Chat/Page/ChatsPage.dart';
 
 import 'authentication_service.dart';
