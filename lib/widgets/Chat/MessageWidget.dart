@@ -27,9 +27,7 @@ class MessageWidget extends StatelessWidget {
           margin: EdgeInsets.all(3),
           constraints: BoxConstraints(maxWidth: 140),
           decoration: BoxDecoration(
-            color: isMe
-                ? Theme.of(context).colorScheme.primary
-                : Color.fromRGBO(139, 143, 255, 1),
+            color: isMe ? Colors.deepPurple[400] : Colors.grey,
             borderRadius: isMe
                 ? borderRadius.subtract(BorderRadius.only(bottomRight: radius))
                 : borderRadius.subtract(BorderRadius.only(bottomLeft: radius)),

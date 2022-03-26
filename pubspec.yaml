@@ -27,9 +27,12 @@ dependencies:
   #Firebase
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0
+  firebase_storage: ^5.0.0
   cloud_firestore: ^0.14.4
   provider: ^5.0.0
   google_sign_in: ^4.5.9
+  # file_picker: ^2.1.6
+  shared_preferences: ^0.5.11
 
   curved_navigation_bar: ^1.0.1
   # fluid_bottom_nav_bar: ^1.0.0
@@ -40,7 +43,6 @@ dependencies:
   tts_azure: ^1.0.0
   avatar_glow: ^1.2.0
   geolocator: ^5.3.1
-
 
   flutter_mobile_vision: ^0.1.3
   

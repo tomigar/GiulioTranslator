@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,23 +22,23 @@ class CustomDrawer extends StatelessWidget {
             children: [
               Container(
                 height: 300,
-                // color: Color.fromARGB(249, 58, 89, 244),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [
-                      0.1,
-                      0.5,
-                      1,
-                    ],
-                    colors: [
-                      Color.fromARGB(249, 58, 89, 244),
-                      Color.fromARGB(249, 58, 89, 244),
-                      Color.fromARGB(0, 58, 89, 244),
-                    ],
-                  ),
-                ),
+                color: Colors.deepPurple[400],
+                // decoration: BoxDecoration(
+                //   gradient: LinearGradient(
+                //     begin: Alignment.topCenter,
+                //     end: Alignment.bottomCenter,
+                //     stops: [
+                //       0.1,
+                //       0.5,
+                //       1,
+                //     ],
+                //     colors: [
+                //       Color.fromARGB(249, 58, 89, 244),
+                //       Color.fromARGB(249, 58, 89, 244),
+                //       Color.fromARGB(0, 58, 89, 244),
+                //     ],
+                //   ),
+                // ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: statusBarHeight),
@@ -57,50 +58,60 @@ class CustomDrawer extends StatelessWidget {
                         ? Container(
                             child: ProfileInfo(),
                           )
-                        : SizedBox(),
+                        : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                "Log In",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline3
+                                    .copyWith(
+                                        color: Color.fromRGBO(0, 0, 0, 0.4),
+                                        letterSpacing: -1,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
             ],
           ),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [Text("Your language"), Icon(Icons.flag)],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Saved Translations"),
-                        Icon(Icons.star_border_outlined)
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Text("data"),
-            ],
-          ),
+          // (firebaseUser != null)
+          //     ? Column(
+          //         children: [
+          //           Padding(
+          //             padding: EdgeInsets.all(10),
+          //             child: Container(
+          //               width: double.infinity,
+          //               height: 70,
+          //               child: Card(
+          //                 shape: RoundedRectangleBorder(
+          //                     borderRadius: BorderRadius.circular(32)),
+          //                 child: Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //                   children: [
+          //                     Text(
+          //                       "Your language",
+          //                       style: TextStyle(fontSize: 16),
+          //                     ),
+          //                     TextButton(
+          //                         onPressed: () {},
+          //                         child: Text(
+          //                           "SK",
+          //                           style: TextStyle(
+          //                               fontSize: 20,
+          //                               fontWeight: FontWeight.bold),
+          //                         ))
+          //                   ],
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       )
+          //     : SizedBox(),
           (firebaseUser != null)
               ? Expanded(
                   child: Align(

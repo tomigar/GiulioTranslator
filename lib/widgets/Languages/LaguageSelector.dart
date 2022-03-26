@@ -7,10 +7,26 @@ import '../../providers/language_selector_provider.dart';
 class LanguageSelector extends StatefulWidget {
   @override
   _LanguageSelectorState createState() => _LanguageSelectorState();
+
+  final TextEditingController toTranslate;
+  LanguageSelector({
+    this.toTranslate,
+  });
 }
 
 class _LanguageSelectorState extends State<LanguageSelector> {
   final _search = TextEditingController();
+
+  void swap() {
+    Provider.of<LanguageSelectProvider>(context, listen: false).languageswap();
+    Provider.of<TranslateTextProvider>(context, listen: false)
+        .swapTranslation();
+
+    widget.toTranslate.text =
+        Provider.of<TranslateTextProvider>(context, listen: false).toTranslate;
+    widget.toTranslate.selection = TextSelection.fromPosition(
+        TextPosition(offset: widget.toTranslate.text.length));
+  }
 
   void setSearch() {
     Provider.of<LanguageSelectProvider>(context, listen: false).setSearch();
@@ -69,9 +85,13 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       children: [
         FittedBox(
           child: Container(
-            //width: MediaQuery.of(context).size.width * 0.45,
+            width: MediaQuery.of(context).size.width * 0.35,
             child: TextButton(
-              child: Text(context.watch<LanguageSelectProvider>().languageOne),
+              child: Text(
+                context.watch<LanguageSelectProvider>().languageOne,
+                style: TextStyle(
+                    color: Colors.deepPurple[400], fontWeight: FontWeight.bold),
+              ),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -126,15 +146,39 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                                         itemCount: _foundLanguages.length,
                                         itemBuilder: (context, index) {
                                           return ListTile(
-                                            title: Text(
-                                                _foundLanguages[index]["name"]),
+                                            selected: context
+                                                    .watch<
+                                                        LanguageSelectProvider>()
+                                                    .languageOne ==
+                                                _foundLanguages[index]["name"],
+                                            selectedColor: Colors.green,
+                                            selectedTileColor: Colors.grey[300],
+                                            title: Row(children: [
+                                              Text(_foundLanguages[index]
+                                                  ["name"]),
+                                              (_foundLanguages[index]
+                                                          ["nativeName"] !=
+                                                      null)
+                                                  ? Text(
+                                                      ' (' +
+                                                          _foundLanguages[index]
+                                                              ["nativeName"] +
+                                                          ')',
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    )
+                                                  : SizedBox(),
+                                            ]),
                                             trailing: (context
                                                         .watch<
                                                             LanguageSelectProvider>()
                                                         .languageOne ==
                                                     _foundLanguages[index]
                                                         ["name"])
-                                                ? Icon(Icons.done)
+                                                ? Icon(
+                                                    Icons.done,
+                                                    color: Colors.lightGreen,
+                                                  )
                                                 : Text(''),
                                             onTap: () {
                                               Navigator.of(context).pop();
@@ -177,20 +221,28 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           ),
         ),
         Center(
-          child: IconButton(
-              icon: Icon(Icons.swap_horiz_sharp),
-              onPressed: () {
-                Provider.of<LanguageSelectProvider>(context, listen: false)
-                    .languageswap();
-                Provider.of<TranslateTextProvider>(context, listen: false)
-                    .swapTranslation();
-              }),
+          child: (context.watch<LanguageSelectProvider>().languageOne !=
+                  "Automatically")
+              ? IconButton(
+                  icon: Icon(Icons.swap_horiz_sharp),
+                  onPressed: () {
+                    swap();
+                  },
+                )
+              : IconButton(
+                  icon: Icon(Icons.swap_horiz_sharp),
+                  onPressed: () {},
+                ),
         ),
         FittedBox(
           child: Container(
-            //width: MediaQuery.of(context).size.width * 0.45,
+            width: MediaQuery.of(context).size.width * 0.35,
             child: TextButton(
-              child: Text(context.watch<LanguageSelectProvider>().languageTwo),
+              child: Text(
+                context.watch<LanguageSelectProvider>().languageTwo,
+                style: TextStyle(
+                    color: Colors.deepPurple[400], fontWeight: FontWeight.bold),
+              ),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -245,15 +297,39 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                                         itemCount: _foundLanguages.length,
                                         itemBuilder: (context, index) {
                                           return ListTile(
-                                            title: Text(
-                                                _foundLanguages[index]["name"]),
+                                            selected: context
+                                                    .watch<
+                                                        LanguageSelectProvider>()
+                                                    .languageTwo ==
+                                                _foundLanguages[index]["name"],
+                                            selectedColor: Colors.green,
+                                            selectedTileColor: Colors.grey[300],
+                                            title: Row(children: [
+                                              Text(_foundLanguages[index]
+                                                  ["name"]),
+                                              (_foundLanguages[index]
+                                                          ["nativeName"] !=
+                                                      null)
+                                                  ? Text(
+                                                      ' (' +
+                                                          _foundLanguages[index]
+                                                              ["nativeName"] +
+                                                          ')',
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    )
+                                                  : SizedBox(),
+                                            ]),
                                             trailing: (context
                                                         .watch<
                                                             LanguageSelectProvider>()
-                                                        .languageOne ==
+                                                        .languageTwo ==
                                                     _foundLanguages[index]
                                                         ["name"])
-                                                ? Icon(Icons.done)
+                                                ? Icon(
+                                                    Icons.done,
+                                                    color: Colors.lightGreen,
+                                                  )
                                                 : Text(''),
                                             onTap: () {
                                               Navigator.of(context).pop();
@@ -278,11 +354,15 @@ class _LanguageSelectorState extends State<LanguageSelector> {
                                               Provider.of<TranslateTextProvider>(
                                                       context,
                                                       listen: false)
-                                                  .start(Provider.of<
-                                                              LanguageSelectProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .languageParTwo);
+                                                  .start(
+                                                      Provider.of<LanguageSelectProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .languageParOne,
+                                                      Provider.of<LanguageSelectProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .languageParTwo);
                                               searchClear();
                                               setSearchOff();
                                             },

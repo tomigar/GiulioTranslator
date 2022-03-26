@@ -1,5 +1,5 @@
+// import 'package:file_picker/file_picker.dart';
 import 'package:translator_app/widgets/Languages/LanguagesList.dart';
-
 import '/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +15,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nicknameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   String selectedLanguageName = "Set Your Language";
   String selectedLanguagePar = "";
+  bool imagePicked = false;
   bool _passwordVisible = true;
   bool isLanguageSet = true;
+  String path = "";
+  String filename = "";
+
   @override
   Widget build(BuildContext context) {
     void languageValidate() {
@@ -43,6 +48,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               nickname: nicknameController.text.trim(),
               nativeLanguage: selectedLanguageName,
               ctx: context,
+              path: path,
+              filename: filename,
             );
         // Navigator.of(context).pop();
       }
@@ -253,6 +260,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               );
                             },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: ElevatedButton(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    (!imagePicked)
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5, right: 15),
+                                            child: Icon(
+                                              Icons.image_outlined,
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5, right: 15),
+                                            child: Icon(
+                                              Icons.image,
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                            ),
+                                          ),
+                                    (!imagePicked)
+                                        ? Text("Pick Image",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Theme.of(context)
+                                                    .hintColor))
+                                        : Text("Pick Image",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.black)),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Theme.of(context).hintColor,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 6,
+                              primary: Colors.white,
+                              minimumSize: Size(_size.width * .9, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                            // onPressed: () async {
+                            //   final results =
+                            //       await FilePicker.platform.pickFiles(
+                            //     allowMultiple: false,
+                            //     type: FileType.custom,
+                            //     allowedExtensions: ['png', 'jpg'],
+                            //   );
+                            //   if (results == null) {
+                            //     ScaffoldMessenger.of(context).showSnackBar(
+                            //       SnackBar(
+                            //         content: Text("No files have been selectd"),
+                            //       ),
+                            //     );
+                            //     return null;
+                            //   }
+                            //   path = results.files.single.path.toString();
+                            //   filename = results.files.single.name.toString();
+                            //   setState(() {
+                            //     imagePicked = true;
+                            //   });
+                            // },
                           ),
                         ),
                       ],

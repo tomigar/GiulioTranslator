@@ -81,7 +81,6 @@ Widget requestTile({
       if (us == requests[index]) usersFriendsList = us.friendsList;
     }
     if (!usersFriendsList.contains(au)) usersFriendsList.add(au);
-    print(usersFriendsList);
     FirebaseFirestore.instance
         .collection('users')
         .doc(requests[index].userID)

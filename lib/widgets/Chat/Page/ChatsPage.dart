@@ -27,7 +27,7 @@ class ChatsPage extends StatelessWidget {
                     return buildText('No Users Found');
                   } else
                     return Container(
-                      color: Color.fromRGBO(139, 143, 255, 1),
+                      color: Colors.deepPurple[400],
                       child: Column(
                         children: [
                           ChatHeaderWidget(users: users),

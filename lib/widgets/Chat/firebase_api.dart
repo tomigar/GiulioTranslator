@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart' as core;
 import 'Model/ChatRoom.dart';
 import 'Model/Message.dart';
 import 'Model/User.dart';
@@ -22,10 +25,22 @@ class FirebaseApi {
       String chatID, String message, var translated) async {
     final refMessages =
         FirebaseFirestore.instance.collection('chats/$chatID/messages');
+    var dataList = [];
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((element) =>
+          ((element["userID"] == auth.currentUser.uid)
+              ? dataList.add(element)
+              : null));
+      print(dataList[0]["photoURL"]);
+    });
 
     final newMessage = Message(
       idUser: myId,
-      urlAvatar: myUrlAvatar,
+      urlAvatar: dataList[0]["photoURL"],
       message: message,
       translatedMessage: translated,
       createdAt: DateTime.now(),
@@ -50,4 +65,32 @@ class FirebaseApi {
           .orderBy(MessageField.createdAt, descending: true)
           .snapshots()
           .transform(Utils.transformer(Message.fromJson));
+
+//   final FirebaseStorage storage = FirebaseStorage.instance;
+//   Future<void> uploadImage(
+//     String filePath,
+//     String fileName,
+//   ) async {
+//     File file = File(filePath);
+//     try {
+//       await storage.ref('profilePictures/$fileName').putFile(file);
+//     } on core.FirebaseException catch (e) {
+//       print(e);
+//     }
+//   }
+
+//   Future<ListResult> listFiles() async {
+//     ListResult results = await storage.ref('profilePictures').listAll();
+
+//     results.items.forEach((Reference ref) {
+//       print('Found file: $ref');
+//     });
+//     return results;
+//   }
+
+//   Future<String> downloadURL(String imageName) async {
+//     String downloadURL =
+//         await storage.ref('profilePictures/$imageName').getDownloadURL();
+//     return downloadURL;
+//   }
 }

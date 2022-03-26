@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:translator_app/widgets/Languages/LanguagesList.dart';
 
 class LanguageSelectProvider with ChangeNotifier {
-  String languageOne = 'Choose your language';
-  String languageTwo = 'Choose your language';
+  String languageOne = 'Choose language';
+  String languageTwo = 'Choose language';
   String languageX;
 
   String languageParOne = "";
@@ -52,7 +52,7 @@ class LanguageSelectProvider with ChangeNotifier {
 
     voiceCodeX = voiceCodeOne;
     voiceCodeOne = voiceCodeTwo;
-    voiceCodeX = voiceCodeTwo;
+    voiceCodeTwo = voiceCodeX;
     notifyListeners();
   }
 

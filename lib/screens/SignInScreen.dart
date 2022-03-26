@@ -25,9 +25,9 @@ class _SignInScreenState extends State<SignInScreen> {
       if (isValid) {
         _formKey.currentState.save();
         context.read<AuthenticationService>().signIn(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim(),
-            );
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+            ctx: context);
       }
     }
 

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_azure_tts/flutter_azure_tts.dart';
 
 class TranslateTextProvider with ChangeNotifier {
-  Future<String> translate(String text, String to) async {
+  Future<String> translate(String text, String from, String to) async {
     final String data = jsonEncode([
       {'Text': text}
     ]);
-    final String params = '&to=$to';
+    String params;
+    (from.isNotEmpty) ? params = '&from=$from&to=$to' : params = '&to=$to';
 
     final response = await http.post(
         Uri.parse(
@@ -24,6 +25,7 @@ class TranslateTextProvider with ChangeNotifier {
     var translation = json.decode(response.body);
 
     translated = translation[0]['translations'][0]['text'];
+    setDetectedLan(translation[0]['detectedLanguage']['language']);
     setTranslated(translation[0]['translations'][0]['text']);
     return null;
   }
@@ -31,9 +33,11 @@ class TranslateTextProvider with ChangeNotifier {
   String toTranslate = "";
   String translated = "";
   String swapTranslate = "";
+  String detectedLan = "";
 
   String get getToTranslate => toTranslate;
   String get getTranslated => translated;
+  String get getDetectedLan => detectedLan;
 
   void setToTranslate(text) {
     toTranslate = text;
@@ -49,6 +53,11 @@ class TranslateTextProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setDetectedLan(text) {
+    detectedLan = text;
+    notifyListeners();
+  }
+
   void swapTranslation() {
     swapTranslate = toTranslate;
     toTranslate = translated;
@@ -56,7 +65,7 @@ class TranslateTextProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void start(to) {
-    translate(toTranslate, to);
+  void start(from, to) {
+    translate(toTranslate, from, to);
   }
 }

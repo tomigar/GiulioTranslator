@@ -25,7 +25,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
-        color: Color.fromRGBO(139, 143, 255, 1),
+        color: Colors.deepPurple[400],
         child: SafeArea(
           child: Column(
             children: [

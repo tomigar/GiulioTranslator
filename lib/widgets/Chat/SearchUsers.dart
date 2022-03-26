@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:translator_app/widgets/Chat/data.dart';
 
 import 'Model/User.dart';
 
@@ -26,9 +27,10 @@ class _SearchUsersState extends State<SearchUsers> {
   @override
   Widget build(BuildContext context) {
     @override
-
     // This function is called whenever the text field changes
     void _runFilter(String enteredKeyword) {
+      widget.users
+          .removeWhere((element) => element.userID == auth.currentUser.uid);
       List<User> results = [];
       if (enteredKeyword.isNotEmpty) {
         results = widget.users
@@ -41,7 +43,6 @@ class _SearchUsersState extends State<SearchUsers> {
       // Refresh the UI
       setState(() {
         _foundUsers = results;
-        print(_foundUsers);
       });
     }
 

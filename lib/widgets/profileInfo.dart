@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as aut;
 import 'package:flutter/material.dart';
+import 'package:translator_app/screens/EditProfile.dart';
 
 import 'Chat/Model/User.dart';
 import 'Chat/firebase_api.dart';
 
+// ignore: must_be_immutable
 class ProfileInfo extends StatelessWidget {
   final aut.FirebaseAuth auth = aut.FirebaseAuth.instance;
 
@@ -17,8 +20,30 @@ class ProfileInfo extends StatelessWidget {
     return number;
   }
 
+  var dataList = [];
+
+  String photoURL;
+  String name;
+  String selectedLanguageName;
+
+  getUserInfo() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((element) =>
+          ((element["userID"] == auth.currentUser.uid)
+              ? dataList.add(element)
+              : null));
+      photoURL = dataList[0]["photoURL"];
+      name = dataList[0]["displayName"];
+      selectedLanguageName = dataList[0]["nativeLanguage"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getUserInfo();
     Size _size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -42,7 +67,14 @@ class ProfileInfo extends StatelessWidget {
                     overlayColor: MaterialStateProperty.all(Colors.purple[100]),
                   ),
                   onPressed: () {
-                    // Navigator.of(context).pushNamed('/profile/edit-profile');
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                              body: EditProfile(
+                                name: name,
+                                photoURL: photoURL,
+                                selectedLanguageName: selectedLanguageName,
+                              ),
+                            )));
                   },
                 ),
               ),
@@ -77,19 +109,12 @@ class ProfileInfo extends StatelessWidget {
                                   users[getCurrentUser(users)].photoURL),
                             ),
                           ),
-                          // Container(
-                          //   width: 100,
-                          //   height: 100,
-                          //   decoration: BoxDecoration(
-                          //       shape: BoxShape.circle,
-                          //       color: Theme.of(context).backgroundColor),
-                          // ),
                           Container(
                             width: _size.width * .8,
                             child: Container(
                               child: Text(
                                 users[getCurrentUser(users)].displayName ??
-                                    Container(),
+                                    Container(child: Text("Login")),
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme

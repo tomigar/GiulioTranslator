@@ -96,7 +96,7 @@ class ChatBodyWidget extends StatelessWidget {
                             .nativeLanguage),
                         title: Text(getCurrentUserFriendsList(context)[index]
                             .displayName),
-                        subtitle: Text("lastCHat"),
+                        subtitle: Text("Open chat"),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
@@ -115,6 +115,32 @@ class ChatBodyWidget extends StatelessWidget {
                       backgroundImage: NetworkImage(
                           getCurrentUserFriendsList(context)[index].photoURL),
                     ),
+                    //     FutureBuilder(
+                    //   future: FirebaseApi().downloadURL(
+                    //       getCurrentUserFriendsList(context)[index].userID),
+                    //   builder: (BuildContext context,
+                    //       AsyncSnapshot<String> snapshot) {
+                    //     if (snapshot.connectionState ==
+                    //             ConnectionState.done &&
+                    //         snapshot.hasData) {
+                    //       return Container(
+                    //         width: 60,
+                    //         height: 60,
+                    //         child: Image.network(
+                    //           snapshot.data,
+                    //           fit: BoxFit.cover,
+                    //         ),
+                    //       );
+                    //     }
+                    //     if (snapshot.connectionState ==
+                    //             ConnectionState.waiting ||
+                    //         !snapshot.hasData) {
+                    //       return CircularProgressIndicator();
+                    //     }
+                    //     return Container();
+                    //   },
+                    // )
+
                     //     CircleAvatar(
                     //   radius: 30,
                     //   backgroundColor: Colors.red,

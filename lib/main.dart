@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:translator_app/screens/EditProfile.dart';
 
 import 'package:translator_app/screens/HomeScreen.dart';
-import 'package:translator_app/screens/SpeechScreen.dart';
+import 'package:translator_app/screens/SavedTranslations.dart';
 import 'package:translator_app/screens/RegisterScreen.dart';
 import 'package:translator_app/screens/SignInScreen.dart';
 import 'package:translator_app/widgets/Chat/Page/ChatsPage.dart';
@@ -54,16 +55,20 @@ class _MyAppState extends State<MyApp> {
         title: 'Giulio',
         theme: ThemeData(
           scaffoldBackgroundColor: Color.fromRGBO(235, 235, 237, 1),
-          primaryColor: Color.fromRGBO(58, 88, 244, 1),
-          appBarTheme: AppBarTheme(color: Color.fromRGBO(58, 88, 244, 1)),
+          // primaryColor: Color.fromRGBO(58, 88, 244, 1),
+          primaryColor: Color(0xff1CC73B),
+          appBarTheme: AppBarTheme(color: Color(0xff1CC73B)),
+          splashColor: Colors.deepPurple,
+
           fontFamily: 'Sen',
         ),
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
         routes: {
           "/home": (ctx) => HomeScreen(),
-          "/scanner": (ctx) => SpeechScreen(),
+          "/saved": (ctx) => SavedTranslations(),
           "/register": (ctx) => RegisterScreen(),
+          "/edit-profile": (ctx) => EditProfile(),
         });
   }
 }

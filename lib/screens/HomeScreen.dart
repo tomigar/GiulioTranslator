@@ -1,9 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:translator_app/main.dart';
-import 'package:translator_app/screens/SpeechScreen.dart';
+import 'package:translator_app/screens/SavedTranslations.dart';
 
-import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 import 'package:translator_app/widgets/Translator.dart';
 import 'package:translator_app/widgets/CustomDrawer.dart';
 
@@ -13,10 +12,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentindex = 1;
+  int currentIndex = 1;
   void setIndex(int index) {
     setState(() {
-      _currentindex = index;
+      currentIndex = index;
     });
   }
 
@@ -36,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: CustomDrawer(),
         bottomNavigationBar: CurvedNavigationBar(
           color: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Colors.transparent,
           height: 60,
-          index: _currentindex,
+          index: currentIndex,
           animationDuration: Duration(milliseconds: 300),
           items: <Widget>[
-            Icon(Icons.chat, size: 30),
-            Icon(Icons.translate, size: 30),
-            Icon(Icons.camera_rounded, size: 30),
+            Icon(Icons.chat, size: 30, color: Colors.white),
+            Icon(Icons.translate, size: 30, color: Colors.white),
+            Icon(Icons.star, size: 30, color: Colors.white),
           ],
           onTap: (index) {
             switch (index) {
@@ -63,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //     backgroundColor: Theme.of(context).primaryColor,
         //     selectedItemColor: Colors.white,
         //     currentIndex:
-        //         _currentindex, // this will be set when a new tab is tapped
+        //         currentIndex, // this will be set when a new tab is tapped
         //     items: [
         //       BottomNavigationBarItem(
         //         icon: new Icon(Icons.chat),
@@ -94,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //           break;
         //       }
         //     }),
-        body: getWidget(_currentindex),
+        body: getWidget(currentIndex),
       ),
     );
   }
@@ -104,8 +103,8 @@ Widget getWidget(index) {
   if (index == 0) return AuthenticationWrapper();
   if (index == 1)
     return Column(
-      children: [LanguageSelector(), Translator()],
+      children: [Translator()],
     );
-  if (index == 2) return SpeechScreen();
+  if (index == 2) return SavedTranslations();
   return SizedBox();
 }

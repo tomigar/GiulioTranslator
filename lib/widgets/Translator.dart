@@ -1,9 +1,11 @@
 import 'package:flutter/services.dart';
+import 'package:translator_app/TranslationsModel.dart';
 import 'package:translator_app/providers/translate_text_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator_app/widgets/Languages/LaguageSelector.dart';
 
 import 'package:tts_azure/tts_azure.dart';
 import 'package:provider/provider.dart';
-import '../authentication_service.dart';
 import '../providers/language_selector_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,10 @@ class _TranslatorState extends State<Translator> {
     super.initState();
     translatedController = TextEditingController();
     toTranslateController = TextEditingController();
+    toTranslateController.text = Provider.of<TranslateTextProvider>(
+      context,
+      listen: false, // Be sure to listen
+    ).toTranslate;
   }
 
   @override
@@ -32,13 +38,6 @@ class _TranslatorState extends State<Translator> {
       context,
       listen: true, // Be sure to listen
     ).translated;
-    toTranslateController.text = Provider.of<TranslateTextProvider>(
-      context,
-      listen: false, // Be sure to listen
-    ).toTranslate;
-    toTranslateController.selection = TextSelection.fromPosition(
-        TextPosition(offset: toTranslateController.text.length));
-
     super.didChangeDependencies();
   }
 
@@ -68,8 +67,44 @@ class _TranslatorState extends State<Translator> {
               .voiceCodeTwo);
     }
 
+    saveTranslation() async {
+      final prefs = await SharedPreferences.getInstance();
+      final String trans = prefs.getString('items');
+      List<Translations> ls = [];
+      if (trans != null) {
+        ls = Translations.decode(trans);
+      }
+      ls.add(Translations(
+        toTranslate: Provider.of<TranslateTextProvider>(context, listen: false)
+            .toTranslate,
+        translated: Provider.of<TranslateTextProvider>(
+          context,
+          listen: false, // Be sure to listen
+        ).translated,
+        from: (Provider.of<LanguageSelectProvider>(context, listen: false)
+                        .getLanOne ==
+                    "Automatically" &&
+                Provider.of<LanguageSelectProvider>(context, listen: false)
+                        .getLanOne ==
+                    "Choose your language")
+            ? Provider.of<TranslateTextProvider>(context, listen: false)
+                .detectedLan
+            : Provider.of<LanguageSelectProvider>(context, listen: false)
+                .getLanOne,
+        to: Provider.of<LanguageSelectProvider>(context, listen: false)
+            .getLanTwo,
+      ));
+      final String encodedData = Translations.encode(ls);
+
+      await prefs.setString('items', encodedData);
+      print(encodedData);
+    }
+
     return Column(
       children: [
+        LanguageSelector(
+          toTranslate: toTranslateController,
+        ),
         // input TextField
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -90,12 +125,6 @@ class _TranslatorState extends State<Translator> {
                             color: Colors.grey,
                           ),
                           onTap: () {
-                            Provider.of<AuthenticationService>(context,
-                                    listen: false)
-                                .signOut();
-                            Provider.of<AuthenticationService>(context,
-                                    listen: false)
-                                .signOut();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 behavior: SnackBarBehavior.floating,
@@ -147,9 +176,13 @@ class _TranslatorState extends State<Translator> {
                     Provider.of<TranslateTextProvider>(context, listen: false)
                         .setToTranslate(val);
                     Provider.of<TranslateTextProvider>(context, listen: false)
-                        .start(Provider.of<LanguageSelectProvider>(context,
-                                listen: false)
-                            .languageParTwo);
+                        .start(
+                            Provider.of<LanguageSelectProvider>(context,
+                                    listen: false)
+                                .languageParOne,
+                            Provider.of<LanguageSelectProvider>(context,
+                                    listen: false)
+                                .languageParTwo);
                   },
                   decoration: InputDecoration(
                       hintText: "Type your text here",
@@ -167,8 +200,9 @@ class _TranslatorState extends State<Translator> {
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.22,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Color.fromRGBO(58, 88, 244, 1)),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.deepPurple[400],
+          ),
           child: Column(
             children: [
               Row(
@@ -209,7 +243,8 @@ class _TranslatorState extends State<Translator> {
                   IconBtn(
                     icon: Icon(Icons.copy),
                     onTap: () {
-                      if (translatedController.text != "") {
+                      if (toTranslateController.text.isNotEmpty &&
+                          translatedController.text.isNotEmpty) {
                         Clipboard.setData(
                             ClipboardData(text: translatedController.text));
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -224,10 +259,21 @@ class _TranslatorState extends State<Translator> {
                       }
                     },
                   ),
-                  IconBtn(
-                    icon: Icon(Icons.star_border),
-                    onTap: () {},
-                  ),
+                  (toTranslateController.text.isNotEmpty &&
+                          translatedController.text.isNotEmpty)
+                      ? IconBtn(
+                          icon: Icon(Icons.star_border),
+                          onTap: () {
+                            saveTranslation();
+                          },
+                        )
+                      : IconBtn(
+                          icon: Icon(
+                            Icons.star_border,
+                            color: Colors.grey,
+                          ),
+                          onTap: () {},
+                        )
                 ],
               ),
               Padding(
@@ -239,7 +285,7 @@ class _TranslatorState extends State<Translator> {
                       border: InputBorder.none, hintText: 'Translated text'),
                   controller: translatedController,
                   readOnly: true,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
             ],
