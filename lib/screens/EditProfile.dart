@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'package:firebase_core/firebase_core.dart' as core;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as aut;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:translator_app/widgets/Languages/LanguagesList.dart';
 
 class EditProfile extends StatefulWidget {
@@ -24,6 +28,7 @@ class _EditProfileState extends State<EditProfile> {
   bool isLanguageSet = true;
   TextEditingController _nameController = TextEditingController();
   String photoURL;
+  String path = "";
 
   @override
   void initState() {
@@ -45,6 +50,34 @@ class _EditProfileState extends State<EditProfile> {
     Navigator.of(context).pop();
   }
 
+  pickImage() async {
+    ImagePicker imagePicker = ImagePicker();
+    final results = await imagePicker.getImage(
+        source: ImageSource.gallery, imageQuality: 50, maxWidth: 600);
+    if (results == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("No files have been selectd"),
+        ),
+      );
+      return null;
+    }
+    setState(() {
+      path = results.path.toString();
+    });
+  }
+
+  Future<void> uploadImage() async {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    String fileName = auth.currentUser.uid;
+    File file = File(path);
+    try {
+      await storage.ref('profilePictures/$fileName').putFile(file);
+    } on core.FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -61,14 +94,17 @@ class _EditProfileState extends State<EditProfile> {
                   width: 150,
                   height: 150,
                   child: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: NetworkImage(photoURL),
-                  ),
+                      radius: 30,
+                      backgroundImage: (path == "")
+                          ? NetworkImage(photoURL)
+                          : Image.file(File(path)).image),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 120.0, left: 45),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      pickImage();
+                    },
                     child: Text("Edit"),
                   ),
                 )
@@ -183,6 +219,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextButton.icon(
                       onPressed: () {
+                        uploadImage();
                         updateInfo();
                       },
                       label: Text(

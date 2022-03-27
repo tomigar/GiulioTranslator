@@ -75,25 +75,28 @@ class _TranslatorState extends State<Translator> {
         ls = Translations.decode(trans);
       }
       ls.add(Translations(
-        toTranslate: Provider.of<TranslateTextProvider>(context, listen: false)
-            .toTranslate,
-        translated: Provider.of<TranslateTextProvider>(
-          context,
-          listen: false, // Be sure to listen
-        ).translated,
-        from: (Provider.of<LanguageSelectProvider>(context, listen: false)
-                        .getLanOne ==
-                    "Automatically" &&
-                Provider.of<LanguageSelectProvider>(context, listen: false)
-                        .getLanOne ==
-                    "Choose your language")
-            ? Provider.of<TranslateTextProvider>(context, listen: false)
-                .detectedLan
-            : Provider.of<LanguageSelectProvider>(context, listen: false)
-                .getLanOne,
-        to: Provider.of<LanguageSelectProvider>(context, listen: false)
-            .getLanTwo,
-      ));
+          toTranslate:
+              Provider.of<TranslateTextProvider>(context, listen: false)
+                  .toTranslate,
+          translated: Provider.of<TranslateTextProvider>(
+            context,
+            listen: false, // Be sure to listen
+          ).translated,
+          from: (Provider.of<LanguageSelectProvider>(context, listen: false)
+                          .getLanOne ==
+                      "Automatically" ||
+                  Provider.of<LanguageSelectProvider>(context, listen: false)
+                          .getLanOne ==
+                      "Choose your language")
+              ? "Automatically (" +
+                  Provider.of<TranslateTextProvider>(context, listen: false)
+                      .detectedLan
+                      .toUpperCase() +
+                  ")"
+              : Provider.of<LanguageSelectProvider>(context, listen: false)
+                  .getLanOne,
+          to: Provider.of<LanguageSelectProvider>(context, listen: false)
+              .getLanTwo));
       final String encodedData = Translations.encode(ls);
 
       await prefs.setString('items', encodedData);

@@ -71,14 +71,14 @@ class AuthenticationService {
           "lastLocation": [0, 0],
         });
         final FirebaseApi storage = FirebaseApi();
-        // storage.uploadImage(path, auth.currentUser.uid).then((value) => storage
-        //     .downloadURL(auth.currentUser.uid)
-        //     .then((value) => FirebaseFirestore.instance
-        //             .collection('users')
-        //             .doc(auth.currentUser.uid)
-        //             .update({
-        //           "photoURL": value,
-        //         })));
+        storage.uploadImage(path, auth.currentUser.uid).then((value) => storage
+            .downloadURL(auth.currentUser.uid)
+            .then((value) => FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(auth.currentUser.uid)
+                    .update({
+                  "photoURL": value,
+                })));
         Navigator.of(ctx).pop();
       });
       return "Signed up";

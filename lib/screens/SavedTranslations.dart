@@ -3,12 +3,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../TranslationsModel.dart';
 
-class SavedTranslations extends StatelessWidget {
+class SavedTranslations extends StatefulWidget {
+  @override
+  State<SavedTranslations> createState() => _SavedTranslationsState();
+}
+
+class _SavedTranslationsState extends State<SavedTranslations> {
   Future loadData() async {
     final prefs = await SharedPreferences.getInstance();
     final String trans = prefs.getString('items');
     List<Translations> ls = Translations.decode(trans);
     return ls;
+  }
+
+  Future deleteData(var data, int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    data.removeWhere((el) => el == data[index]);
+    final String encodedData = Translations.encode(data);
+
+    await prefs.setString('items', encodedData);
   }
 
   @override
@@ -17,14 +30,14 @@ class SavedTranslations extends StatelessWidget {
       FutureBuilder(
           future: loadData(),
           builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
+            if (!snapshot.hasData || snapshot.data.length == 0) {
               return Center(
                   child: Text(
                 "No saved translations",
                 style: Theme.of(context).textTheme.headline4,
               ));
             } else {
-              print("reloaduje");
+              print(snapshot.data);
               return Container(
                   child: ListView.builder(
                       itemCount: snapshot.data.length,
@@ -56,13 +69,14 @@ class SavedTranslations extends StatelessWidget {
                                       flex: 2,
                                     ),
                                     IconButton(
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color:
-                                            Color.fromRGBO(255, 255, 255, .6),
-                                      ),
-                                      onPressed: () {},
-                                    ),
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color:
+                                              Color.fromRGBO(255, 255, 255, .6),
+                                        ),
+                                        onPressed: () => setState(() {
+                                              deleteData(snapshot.data, index);
+                                            })),
                                   ],
                                 ),
                                 Center(
@@ -106,15 +120,6 @@ class SavedTranslations extends StatelessWidget {
                       }));
             }
           }),
-      // Align(
-      //     alignment: Alignment.bottomCenter,
-      //     child: IconButton(
-      //         onPressed: () async {
-      //           final prefs = await SharedPreferences.getInstance();
-
-      //           prefs.remove("items");
-      //         },
-      //         icon: Icon(Icons.stop)))
     ]);
   }
 }

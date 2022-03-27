@@ -66,18 +66,18 @@ class FirebaseApi {
           .snapshots()
           .transform(Utils.transformer(Message.fromJson));
 
-//   final FirebaseStorage storage = FirebaseStorage.instance;
-//   Future<void> uploadImage(
-//     String filePath,
-//     String fileName,
-//   ) async {
-//     File file = File(filePath);
-//     try {
-//       await storage.ref('profilePictures/$fileName').putFile(file);
-//     } on core.FirebaseException catch (e) {
-//       print(e);
-//     }
-//   }
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  Future<void> uploadImage(
+    String filePath,
+    String fileName,
+  ) async {
+    File file = File(filePath);
+    try {
+      await storage.ref('profilePictures/$fileName').putFile(file);
+    } on core.FirebaseException catch (e) {
+      print(e);
+    }
+  }
 
 //   Future<ListResult> listFiles() async {
 //     ListResult results = await storage.ref('profilePictures').listAll();
@@ -88,9 +88,9 @@ class FirebaseApi {
 //     return results;
 //   }
 
-//   Future<String> downloadURL(String imageName) async {
-//     String downloadURL =
-//         await storage.ref('profilePictures/$imageName').getDownloadURL();
-//     return downloadURL;
-//   }
+  Future<String> downloadURL(String imageName) async {
+    String downloadURL =
+        await storage.ref('profilePictures/$imageName').getDownloadURL();
+    return downloadURL;
+  }
 }

@@ -19,7 +19,7 @@ class ChatBodyWidget extends StatelessWidget {
   List<User> getCurrentUserFriendsList(context) {
     try {
       List<User> currentFriendsL = [];
-      var currentFriends;
+      var currentFriends = [];
       for (final friends in users) {
         if (friends.userID == auth.currentUser.uid) {
           currentFriends = friends.friendsList;
