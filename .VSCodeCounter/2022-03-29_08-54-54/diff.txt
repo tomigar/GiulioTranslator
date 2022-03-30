@@ -1,0 +1,74 @@
+Date : 2022-03-29 08:54:54
+Directory : c:\Programovanie\Flutter\Projects\GiulioTranslator
+Total : 31 files,  13511 codes, 43 comments, 118 blanks, all 13672 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Zip      |          1 |     12,527 |          0 |         55 |     12,582 |
+| Dart     |         26 |        963 |         52 |         61 |      1,076 |
+| XML      |          3 |         16 |        -10 |          1 |          7 |
+| YAML     |          1 |          5 |          1 |          1 |          7 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                              |         31 |     13,511 |         43 |        118 |     13,672 |
+| android                                                                                                        |          3 |         16 |        -10 |          1 |          7 |
+| android\app                                                                                                    |          3 |         16 |        -10 |          1 |          7 |
+| android\app\src                                                                                                |          3 |         16 |        -10 |          1 |          7 |
+| android\app\src\main                                                                                           |          3 |         16 |        -10 |          1 |          7 |
+| android\app\src\main\res                                                                                       |          2 |         10 |        -10 |          0 |          0 |
+| android\app\src\main\res\drawable                                                                              |          1 |          5 |         -5 |          0 |          0 |
+| android\app\src\main\res\drawable-v21                                                                          |          1 |          5 |         -5 |          0 |          0 |
+| assets                                                                                                         |          1 |     12,527 |          0 |         55 |     12,582 |
+| lib                                                                                                            |         26 |        963 |         52 |         61 |      1,076 |
+| lib\providers                                                                                                  |          1 |          8 |          0 |          1 |          9 |
+| lib\screens                                                                                                    |          5 |        373 |        -13 |          9 |        369 |
+| lib\widgets                                                                                                    |         17 |        466 |         63 |         40 |        569 |
+| lib\widgets\Chat                                                                                               |         13 |        310 |         23 |         33 |        366 |
+| lib\widgets\Chat\Model                                                                                         |          2 |         34 |          0 |          5 |         39 |
+| lib\widgets\Chat\Page                                                                                          |          1 |          4 |          1 |         -1 |          4 |
+| lib\widgets\Languages                                                                                          |          1 |         79 |         -2 |          3 |         80 |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                       | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\android\app\src\main\AndroidManifest.xml                    | XML      |          6 |          0 |          1 |          7 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\android\app\src\main\res\drawable-v21\launch_background.xml | XML      |          5 |         -5 |          0 |          0 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\android\app\src\main\res\drawable\launch_background.xml     | XML      |          5 |         -5 |          0 |          0 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\assets\flag-icons-main.zip                                  | Zip      |     12,527 |          0 |         55 |     12,582 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\TranslationsModel.dart                                  | Dart     |         37 |          0 |          7 |         44 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\authentication_service.dart                             | Dart     |         72 |          1 |          2 |         75 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\main.dart                                               | Dart     |          7 |          1 |          2 |         10 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\providers\translate_text_provider.dart                  | Dart     |          8 |          0 |          1 |          9 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\EditProfile.dart                                | Dart     |        240 |          1 |          9 |        250 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\HomeScreen.dart                                 | Dart     |         -1 |         -4 |         -1 |         -6 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\RegisterScreen.dart                             | Dart     |         81 |          3 |          3 |         87 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\SavedTranslations.dart                          | Dart     |        115 |          4 |          7 |        126 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\screens\ScannerScreen.dart                              | Dart     |        -62 |        -17 |         -9 |        -88 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\ChatBodyWidget.dart                        | Dart     |         10 |         28 |          2 |         40 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\ChatHeaderWidget.dart                      | Dart     |         10 |         -8 |          0 |          2 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Location.dart                              | Dart     |          0 |          0 |          2 |          2 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\MessageWidget.dart                         | Dart     |         -2 |          0 |          0 |         -2 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Model\ChatRoom.dart                        | Dart     |         28 |          0 |          5 |         33 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Model\User.dart                            | Dart     |          6 |          0 |          0 |          6 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\NearbyUsers.dart                           | Dart     |        160 |          2 |         13 |        175 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\NewMessageWidget.dart                      | Dart     |         47 |          0 |          3 |         50 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\Page\ChatsPage.dart                        | Dart     |          4 |          1 |         -1 |          4 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\RequestsWidget.dart                        | Dart     |         -1 |          0 |          0 |         -1 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\SearchUsers.dart                           | Dart     |          1 |          0 |          0 |          1 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\data.dart                                  | Dart     |          6 |         -7 |          1 |          0 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Chat\firebase_api.dart                          | Dart     |         41 |          7 |          8 |         56 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\CustomDrawer.dart                               | Dart     |          0 |         49 |          0 |         49 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Languages\LaguageSelector.dart                  | Dart     |         79 |         -2 |          3 |         80 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\Translator.dart                                 | Dart     |         48 |          0 |          1 |         49 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\lib\widgets\profileInfo.dart                                | Dart     |         29 |         -7 |          3 |         25 |
+| c:\Programovanie\Flutter\Projects\GiulioTranslator\pubspec.yaml                                                | YAML     |          5 |          1 |          1 |          7 |
+| Total                                                                                                          |          |     13,511 |         43 |        118 |     13,672 |
++----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
