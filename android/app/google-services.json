@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:510321678645:android:7c84a1df30181ba185d47c",
         "android_client_info": {
-          "package_name": "com.example.translator"
+          "package_name": "com.giulio.giuliochattranslator"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "510321678645-ev06fqh4ce0aui8tq81n5vvrn6v5sm6f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.translator",
+            "package_name": "com.giulio.giuliochattranslator",
             "certificate_hash": "8be6cc83f6850ae7d058a2c9e166379783390cbf"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "510321678645-vgp991ii4c7fk9iuq2tofcptr3vmsuaf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.translator",
+            "package_name": "com.giulio.giuliochattranslator",
             "certificate_hash": "96e9d2af037003fade4d259465b1638827f5a11e"
           }
         },

@@ -1,4 +1,4 @@
-package com.example.translator
+package com.giulio.giuliochattranslator
 
 import io.flutter.embedding.android.FlutterActivity
 
