@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:510321678645:android:7c84a1df30181ba185d47c",
         "android_client_info": {
-          "package_name": "com.giulio.giuliochattranslator"
+          "package_name": "com.example.translator"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "510321678645-ev06fqh4ce0aui8tq81n5vvrn6v5sm6f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.giulio.giuliochattranslator",
+            "package_name": "com.example.translator",
             "certificate_hash": "8be6cc83f6850ae7d058a2c9e166379783390cbf"
           }
         },
@@ -25,8 +25,53 @@
           "client_id": "510321678645-vgp991ii4c7fk9iuq2tofcptr3vmsuaf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
+            "package_name": "com.example.translator",
+            "certificate_hash": "96e9d2af037003fade4d259465b1638827f5a11e"
+          }
+        },
+        {
+          "client_id": "510321678645-d6179arfm6cqp741n5h2iuaadjloq3bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPA6zIt2w0xqBWqVMC7ocwAnPOnqXz78I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510321678645-d6179arfm6cqp741n5h2iuaadjloq3bk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510321678645:android:6ef0c0d8d6fdbbbb85d47c",
+        "android_client_info": {
+          "package_name": "com.giulio.giuliochattranslator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510321678645-bfqjt024teej6balv5nti5tlljkd9hlc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
             "package_name": "com.giulio.giuliochattranslator",
             "certificate_hash": "96e9d2af037003fade4d259465b1638827f5a11e"
+          }
+        },
+        {
+          "client_id": "510321678645-kg7smkh4em6o888cvndbmq1gns86pkm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.giulio.giuliochattranslator",
+            "certificate_hash": "8be6cc83f6850ae7d058a2c9e166379783390cbf"
           }
         },
         {
